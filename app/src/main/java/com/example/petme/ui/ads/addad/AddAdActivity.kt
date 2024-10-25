@@ -39,25 +39,46 @@ class AddAdActivity : AppCompatActivity() {
 
         // Save Ad button
         binding.btnSaveAd.setOnClickListener {
-            val title = binding.etTitle.text.toString()
-            val description = binding.etDescription.text.toString()
-            val price = binding.etPrice.text.toString().toDouble()
-            val age = binding.etAge.text.toString().toInt()
+            val title = binding.etTitle.text.toString().trim()
+            val description = binding.etDescription.text.toString().trim()
+            val priceText = binding.etPrice.text.toString().trim()
+            val ageText = binding.etAge.text.toString().trim()
             val category = binding.spinnerCategory.selectedItem.toString()
-            val breed = binding.etBreed.text.toString()
+            val breed = binding.etBreed.text.toString().trim()
 
-            if (title.isNotEmpty() && description.isNotEmpty() && selectedImages.isNotEmpty()) {
-                // Show the progress bar
-                binding.progressBar.visibility = android.view.View.VISIBLE
-
-                uploadImagesAndSaveAd(title, description, price, age, category, breed)
+            // Check if all fields are filled
+            if (title.isEmpty()) {
+                Toast.makeText(this, "Please enter a title", Toast.LENGTH_SHORT).show()
+            } else if (description.isEmpty()) {
+                Toast.makeText(this, "Please enter a description", Toast.LENGTH_SHORT).show()
+            } else if (priceText.isEmpty()) {
+                Toast.makeText(this, "Please enter a price", Toast.LENGTH_SHORT).show()
+            } else if (ageText.isEmpty()) {
+                Toast.makeText(this, "Please enter age", Toast.LENGTH_SHORT).show()
+            } else if (category.isEmpty() || category == "Select Category") {
+                Toast.makeText(this, "Please select a category", Toast.LENGTH_SHORT).show()
+            } else if (breed.isEmpty()) {
+                Toast.makeText(this, "Please enter breed", Toast.LENGTH_SHORT).show()
+            } else if (selectedImages.isEmpty()) {
+                Toast.makeText(this, "Please select at least one image", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
+                // Convert price and age to respective data types
+                val price = priceText.toDoubleOrNull()
+                val age = ageText.toIntOrNull()
+
+                if (price == null) {
+                    Toast.makeText(this, "Invalid price format", Toast.LENGTH_SHORT).show()
+                } else if (age == null) {
+                    Toast.makeText(this, "Invalid age format", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Show the progress bar and proceed to upload images and save ad
+                    binding.progressBar.visibility = android.view.View.VISIBLE
+                    uploadImagesAndSaveAd(title, description, price, age, category, breed)
+                }
             }
         }
     }
-
-    private fun openImageSelector() {
+        private fun openImageSelector() {
         // Intent for selecting multiple images
         val intent = Intent().apply {
             type = "image/*"

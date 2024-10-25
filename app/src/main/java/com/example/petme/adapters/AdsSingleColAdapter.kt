@@ -4,13 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.petme.R
 import com.example.petme.models.ClassifiedAd
 
-class AdsSingleColAdapter(private var adsList: MutableList<ClassifiedAd>) : RecyclerView.Adapter<AdsSingleColAdapter.AdViewHolder>() {
+class AdsSingleColAdapter(
+    var adsList: MutableList<ClassifiedAd>,
+    private val onDeleteAd: (ClassifiedAd) -> Unit // Add this parameter
+) : RecyclerView.Adapter<AdsSingleColAdapter.AdViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_ad_single_col_layout, parent, false)
@@ -30,14 +34,14 @@ class AdsSingleColAdapter(private var adsList: MutableList<ClassifiedAd>) : Recy
         private val adDescription: TextView = itemView.findViewById(R.id.adDescription)
         private val adPrice: TextView = itemView.findViewById(R.id.adPrice)
         private val adImage: ImageView = itemView.findViewById(R.id.adImage)
-
+        private val deleteButton: ImageButton = itemView.findViewById(R.id.btnDeleteAd) // Find delete button
 
         fun bind(ad: ClassifiedAd) {
             adTitle.text = ad.title
             adDescription.text = ad.description
             adPrice.text = "$${ad.price}"
 
-
+            // Load image if available
             if (ad.imageUrls.isNotEmpty()) {
                 Glide.with(adImage.context)
                     .load(ad.imageUrls[0])
@@ -47,9 +51,12 @@ class AdsSingleColAdapter(private var adsList: MutableList<ClassifiedAd>) : Recy
             } else {
                 adImage.setImageResource(R.drawable.placeholder_image)
             }
+
+            // Set delete button action
+            deleteButton.setOnClickListener {
+                onDeleteAd(ad) // Call the onDeleteAd function when clicked
+            }
         }
-
-
     }
 
     // Method to update ads dynamically

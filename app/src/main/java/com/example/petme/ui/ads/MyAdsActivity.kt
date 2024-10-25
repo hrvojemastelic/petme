@@ -3,6 +3,7 @@ package com.example.petme.ui.ads
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.petme.adapters.AdsSingleColAdapter
@@ -34,7 +35,21 @@ class MyAdsActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adsAdapter = AdsSingleColAdapter(mutableListOf())
+        adsAdapter = AdsSingleColAdapter(mutableListOf()) { ad ->
+            // Show confirmation dialog before deleting
+            AlertDialog.Builder(this)
+                .setTitle("Delete Ad")
+                .setMessage("Are you sure you want to delete this ad?")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    deleteAd(ad) // Call delete function
+                    dialog.dismiss()
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
         binding.recyclerViewMyAds.apply {
             layoutManager = LinearLayoutManager(this@MyAdsActivity)
             adapter = adsAdapter
@@ -58,5 +73,17 @@ class MyAdsActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Please log in to view your ads", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun deleteAd(ad: ClassifiedAd) {
+        firestore.collection("ads").document(ad.id.toString())
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(this, "Ad deleted successfully", Toast.LENGTH_SHORT).show()
+                adsAdapter.updateAds(adsAdapter.adsList.filter { it.id != ad.id }) // Update list
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Error deleting ad: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

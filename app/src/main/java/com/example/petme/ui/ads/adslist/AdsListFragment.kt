@@ -76,7 +76,7 @@ class AdsListFragment : Fragment() {
         }
 
         // Initialize adapter for the RecyclerView
-        adsAdapter = AdsSingleColAdapter(mutableListOf()) // Pass an empty mutable list
+        adsAdapter = AdsSingleColAdapter(mutableListOf()){} // Pass an empty mutable list
 
         recyclerView.adapter = adsAdapter
 
