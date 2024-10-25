@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/dark_gray"
+    android:padding="0dp"
+    android:layout_margin="2dp">
+
+    <ImageView
+        android:id="@+id/adImage"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:scaleType="centerCrop"
+        android:contentDescription="Ad Image"/>
+
+    <TextView
+        android:id="@+id/adTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginBottom="2dp"/>
+
+    <TextView
+        android:id="@+id/adDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginBottom="2dp"/>
+
+    <TextView
+        android:id="@+id/adPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@android:color/holo_green_dark"
+        android:layout_marginTop="2dp"/>
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "508161011085",
+    "project_id": "petme-c491a",
+    "storage_bucket": "petme-c491a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508161011085:android:139cfc9fb4c8056773a1c4",
+        "android_client_info": {
+          "package_name": "com.example.petme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGYvd9-i_PEiT1BKoXGYEeJbKPQM2WMrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
