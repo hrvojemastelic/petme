@@ -1,94 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <!-- Main Scrollable Content Wrapper -->
+    <ScrollView
+        android:id="@+id/mainContentLayout"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnUploadImages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload Images"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_image_background"/>
+
+            <GridLayout
+                android:id="@+id/selectedImagesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="4"
+                android:padding="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"/>
+
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_addad_background"
+                android:hint="Title" />
+
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_addad_background"
+                android:inputType="textMultiLine" />
+
+            <EditText
+                android:id="@+id/etPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Price"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_addad_background"
+                android:inputType="numberDecimal"/>
+
+            <EditText
+                android:id="@+id/etAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Age"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_addad_background"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Select category"/>
+
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/category_options"
+                android:background="@drawable/rounded_addad_background"
+                android:layout_marginBottom="10dp"/>
+
+            <EditText
+                android:id="@+id/etBreed"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_addad_background"
+                android:hint="Breed" />
+
+            <Button
+                android:id="@+id/btnSaveAd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save Ad" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ProgressBar Overlay -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btnUploadImages"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Upload Images"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_image_background"/>
-
-        <EditText
-            android:id="@+id/etTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_addad_background"
-            android:hint="Title" />
-
-        <EditText
-            android:id="@+id/etDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Description"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_addad_background"
-            android:inputType="textMultiLine" />
-
-        <EditText
-            android:id="@+id/etPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Price"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_addad_background"
-            android:inputType="numberDecimal"
-            />
-
-        <EditText
-            android:id="@+id/etAge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Age"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_addad_background"
-            android:inputType="number" />
-
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:text=" Select category"/>
-        <Spinner
-            android:id="@+id/spinnerCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/category_options"
-            android:background="@drawable/rounded_addad_background"
-            android:layout_marginBottom="10dp"
-            />
-
-        <EditText
-            android:id="@+id/etBreed"
-            android:layout_marginBottom="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_addad_background"
-            android:hint="Breed" />
-
-        <Button
-            android:id="@+id/btnSaveAd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save Ad" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
-
-    </LinearLayout>
-
-</ScrollView>
+</FrameLayout>
