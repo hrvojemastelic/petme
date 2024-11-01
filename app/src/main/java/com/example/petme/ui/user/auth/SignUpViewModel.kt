@@ -13,31 +13,31 @@ class SignUpViewModel : ViewModel() {
 
     fun signUpUser(
         email: String, password: String, accountType: String,
-        phoneNumber: String, address: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit
+        phoneNumber: String, address: String, username: String,
+        onSuccess: () -> Unit, onFailure: (Exception) -> Unit
     ) {
-        // Create user in Firebase Auth
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val userId = task.result?.user?.uid
                     userId?.let {
-                        saveUserToFirestore(it, email, phoneNumber, address, accountType, onSuccess, onFailure)
+                        saveUserToFirestore(it, email, phoneNumber, address, accountType, username, onSuccess, onFailure)
                     }
                 } else {
-                    task.exception?.let {
-                        onFailure(it)
-                    }
+                    task.exception?.let { onFailure(it) }
                 }
             }
     }
 
     private fun saveUserToFirestore(
         userId: String, email: String, phoneNumber: String,
-        address: String, accountType: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit
+        address: String, accountType: String, username: String,
+        onSuccess: () -> Unit, onFailure: (Exception) -> Unit
     ) {
         val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
         val userAccount = UserAccount(
             userId = userId,
+            username = username,
             email = email,
             phoneNumber = phoneNumber,
             address = address,
@@ -45,13 +45,8 @@ class SignUpViewModel : ViewModel() {
             dateOfCreation = currentDate
         )
 
-        // Save user data in Firestore under a "users" collection
         firestore.collection("users").document(userId).set(userAccount)
-            .addOnSuccessListener {
-                onSuccess()
-            }
-            .addOnFailureListener { exception ->
-                onFailure(exception)
-            }
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { exception -> onFailure(exception) }
     }
 }

@@ -7,37 +7,34 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.petme.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var viewModel: SignUpViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        viewModel = SignUpViewModel()
 
-        // Handle private account selection
+        // Account type selection
         binding.privateButton.setOnClickListener {
             setupAccountTypeUI("private")
         }
-
-        // Handle business account selection
         binding.businessButton.setOnClickListener {
             setupAccountTypeUI("business")
         }
 
-        // Handle sign-up
+        // Sign-up button
         binding.signUpButton.setOnClickListener {
+            val username = binding.usernameInput.text.toString().trim()
             val email = binding.emailInput.text.toString().trim()
             val password = binding.passwordInput.text.toString().trim()
             val confirmPassword = binding.confirmPasswordInput.text.toString().trim()
@@ -45,8 +42,10 @@ class SignUpActivity : AppCompatActivity() {
             val phone = binding.phoneInput.text.toString().trim()
             val accountType = binding.selectAccountTypeText.text.toString()
 
-            if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword == password && address.isNotEmpty() && phone.isNotEmpty()) {
-                signUpUser(email, password, address, phone, accountType)
+            if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() &&
+                confirmPassword == password && address.isNotEmpty() && phone.isNotEmpty()
+            ) {
+                checkUsernameAndEmail(username, email, password, address, phone, accountType)
             } else {
                 Toast.makeText(this, "Please fill in all fields correctly", Toast.LENGTH_SHORT).show()
             }
@@ -54,43 +53,50 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun setupAccountTypeUI(accountType: String) {
-        // Hide account type selection and show the form
         binding.accountTypeSelectionLayout.visibility = View.GONE
         binding.accountDetailsFormLayout.visibility = View.VISIBLE
-
-        // Set account type
         binding.selectAccountTypeText.text = accountType
     }
 
-    private fun signUpUser(email: String, password: String, address: String, phone: String, accountType: String) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val userId = auth.currentUser?.uid
-                    val dateCreated = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+    private fun checkUsernameAndEmail(username: String, email: String, password: String, address: String, phone: String, accountType: String) {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.accountDetailsFormLayout.visibility = View.GONE
 
-                    // Create user data map
-                    val userData = hashMapOf(
-                        "email" to email,
-                        "address" to address,
-                        "phone" to phone,
-                        "accountType" to accountType,
-                        "dateCreated" to dateCreated
-                    )
-
-                    // Save user data to Firestore
-                    userId?.let {
-                        db.collection("users").document(it).set(userData)
-                            .addOnSuccessListener {
-                                Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
-                            }
-                            .addOnFailureListener { e ->
-                                Toast.makeText(this, "Failed to save user data: ${e.message}", Toast.LENGTH_SHORT).show()
-                            }
-                    }
+        db.collection("users").whereEqualTo("username", username).get()
+            .addOnSuccessListener { usernameDocs ->
+                if (!usernameDocs.isEmpty) {
+                    showFormWithMessage("Username already exists")
                 } else {
-                    Toast.makeText(this, "Sign-up failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    db.collection("users").whereEqualTo("email", email).get()
+                        .addOnSuccessListener { emailDocs ->
+                            if (!emailDocs.isEmpty) {
+                                showFormWithMessage("Email already exists")
+                            } else {
+                                viewModel.signUpUser(
+                                    email, password, accountType, phone, address, username,
+                                    onSuccess = {
+                                        Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
+                                        finish()  // Close activity
+                                    },
+                                    onFailure = { e ->
+                                        showFormWithMessage("Sign-up failed: ${e.message}")
+                                    }
+                                )
+                            }
+                        }
+                        .addOnFailureListener { e ->
+                            showFormWithMessage("Error checking email: ${e.message}")
+                        }
                 }
             }
+            .addOnFailureListener { e ->
+                showFormWithMessage("Error checking username: ${e.message}")
+            }
+    }
+
+    private fun showFormWithMessage(message: String) {
+        binding.progressBar.visibility = View.GONE
+        binding.accountDetailsFormLayout.visibility = View.VISIBLE
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
