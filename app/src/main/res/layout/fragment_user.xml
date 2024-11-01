@@ -6,6 +6,26 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Username TextView -->
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="4dp" />
+
+    <!-- Email TextView -->
+    <TextView
+        android:id="@+id/emailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="16dp" />
+
     <!-- Login Form -->
     <LinearLayout
         android:id="@+id/loginForm"
@@ -43,6 +63,15 @@
             android:layout_marginTop="16dp" />
     </LinearLayout>
 
+    <!-- Centered Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center" />
+
+    <!-- My Ads Button -->
     <Button
         android:id="@+id/myads"
         android:layout_width="match_parent"
@@ -51,6 +80,7 @@
         android:visibility="gone"
         android:layout_marginTop="16dp" />
 
+    <!-- Additional Buttons -->
     <Button
         android:id="@+id/addad"
         android:layout_width="match_parent"
@@ -66,7 +96,7 @@
         android:text="Settings"
         android:visibility="gone"
         android:layout_marginTop="16dp" />
-    <!-- Logout Button -->
+
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"

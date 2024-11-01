@@ -25,15 +25,6 @@
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
-        android:id="@+id/adsListFragment"
-        android:name="com.example.petme.ui.ads.adslist.AdsListFragment"
-        android:label="Ads List">
-        <argument
-            android:name="category"
-            app:argType="string" />
-    </fragment>
-
-    <fragment
         android:id="@+id/user"
         android:name="com.example.petme.ui.user.UserFragment"
         android:label="PetMe"

@@ -1,5 +1,6 @@
 package com.example.petme.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,6 +16,7 @@ import com.example.njuapp.adapter.ImageSliderAdapter
 import com.example.petme.R
 import com.example.petme.databinding.FragmentHomeBinding
 import com.example.petme.adapters.AdsAdapter
+import com.example.petme.ui.ads.adslist.AdsListActivity
 import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeFragment : Fragment() {
@@ -84,15 +86,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun openAdsListFragment(category: String) {
-        val navController = findNavController() // Get the NavController
-
-        // Create a bundle to pass data
-        val bundle = Bundle().apply {
-            putString("category", category) // Make sure the key matches the one used in AdsListFragment
+        val intent = Intent(requireContext(), AdsListActivity::class.java).apply {
+            putExtra(AdsListActivity.EXTRA_CATEGORY, category) // Pass the category
         }
-
-        // Navigate to AdsListFragment using NavController
-        navController.navigate(R.id.adsListFragment, bundle)
+        startActivity(intent)
     }
 
     private fun startAutoSliding(viewPager: ViewPager2, totalImages: Int) {

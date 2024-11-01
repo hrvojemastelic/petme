@@ -19,6 +19,9 @@
         android:theme="@style/Theme.Petme"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ads.adslist.AdsListActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ads.MyAdsActivity"
             android:exported="false" />
         <activity
