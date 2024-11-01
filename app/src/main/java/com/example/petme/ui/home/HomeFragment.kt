@@ -87,7 +87,8 @@ class HomeFragment : Fragment() {
 
     private fun openAdsListFragment(category: String) {
         val intent = Intent(requireContext(), AdsListActivity::class.java).apply {
-            putExtra(AdsListActivity.EXTRA_CATEGORY, category) // Pass the category
+            putExtra(AdsListActivity.EXTRA_CATEGORY, category)
+            putExtra("allUsers", "allUsers")// Pass the category
         }
         startActivity(intent)
     }

@@ -59,7 +59,7 @@ class AdsListActivity : AppCompatActivity() {
         }
 
         // Initialize adapter for the RecyclerView
-        adsAdapter = AdsSingleColAdapter(mutableListOf()){}  // Pass an empty mutable list
+        adsAdapter = AdsSingleColAdapter(mutableListOf(),showDeleteButton = false){}  // Pass an empty mutable list
         binding.recyclerViewAds.adapter = adsAdapter
 
         // Fetch Ads from Firestore

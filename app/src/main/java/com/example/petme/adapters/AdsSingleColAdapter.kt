@@ -13,6 +13,7 @@ import com.example.petme.models.ClassifiedAd
 
 class AdsSingleColAdapter(
     var adsList: MutableList<ClassifiedAd>,
+    private val showDeleteButton: Boolean,
     private val onDeleteAd: (ClassifiedAd) -> Unit // Add this parameter
 ) : RecyclerView.Adapter<AdsSingleColAdapter.AdViewHolder>() {
 
@@ -24,6 +25,8 @@ class AdsSingleColAdapter(
     override fun onBindViewHolder(holder: AdViewHolder, position: Int) {
         val ad = adsList[position]
         holder.bind(ad)
+
+
     }
 
     override fun getItemCount(): Int = adsList.size
@@ -35,6 +38,7 @@ class AdsSingleColAdapter(
         private val adPrice: TextView = itemView.findViewById(R.id.adPrice)
         private val adImage: ImageView = itemView.findViewById(R.id.adImage)
         private val deleteButton: ImageButton = itemView.findViewById(R.id.btnDeleteAd) // Find delete button
+
 
         fun bind(ad: ClassifiedAd) {
             adTitle.text = ad.title
@@ -51,7 +55,7 @@ class AdsSingleColAdapter(
             } else {
                 adImage.setImageResource(R.drawable.placeholder_image)
             }
-
+            deleteButton.visibility = if (showDeleteButton) View.VISIBLE else View.GONE
             // Set delete button action
             deleteButton.setOnClickListener {
                 onDeleteAd(ad) // Call the onDeleteAd function when clicked

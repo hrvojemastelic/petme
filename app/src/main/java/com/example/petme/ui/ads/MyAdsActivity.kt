@@ -35,7 +35,7 @@ class MyAdsActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adsAdapter = AdsSingleColAdapter(mutableListOf()) { ad ->
+        adsAdapter = AdsSingleColAdapter(mutableListOf(),showDeleteButton = true) { ad ->
             // Show confirmation dialog before deleting
             AlertDialog.Builder(this)
                 .setTitle("Delete Ad")
