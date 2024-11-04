@@ -2,6 +2,7 @@ package com.example.petme.ui.user
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,6 +64,18 @@ class UserFragment : Fragment() {
             binding.emailTextView.visibility = if (email.isNullOrEmpty()) View.GONE else View.VISIBLE
         }
 
+        // Observe username changes
+        authViewModel.phoneNumbar.observe(viewLifecycleOwner) { phoneNumbar ->
+            Log.d("jebimaterviše",phoneNumbar.toString())
+            binding.phoneTextView.text = phoneNumbar.toString()
+            binding.phoneTextView.visibility = if (phoneNumbar.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
+        }
+        // Observe username changes
+        authViewModel.address.observe(viewLifecycleOwner) { address ->
+            binding.addressTextView.text = address
+            binding.addressTextView.visibility = if (address.isNullOrEmpty()) View.GONE else View.VISIBLE
+        }
+
         // Set up login button
         binding.loginButton.setOnClickListener {
            if(binding.emailEditText.text.toString().trim().isNotEmpty() && binding.passwordEditText.text.toString().trim().isNotEmpty() )
@@ -113,7 +126,8 @@ class UserFragment : Fragment() {
         binding.myads.visibility = View.VISIBLE
         binding.settings.visibility = View.VISIBLE
         binding.addad.visibility = View.VISIBLE
-
+        binding.usernameTextView.visibility = View.VISIBLE
+        binding.emailTextView.visibility = View.VISIBLE
         // Update UI with username and email
         updateUI()
     }

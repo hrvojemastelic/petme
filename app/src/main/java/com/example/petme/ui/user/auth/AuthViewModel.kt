@@ -16,6 +16,12 @@ class AuthViewModel : ViewModel() {
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> get() = _email
 
+    private val _phoneNumbar = MutableLiveData<String>()
+    val phoneNumbar: LiveData<String> get() = _phoneNumbar
+
+    private val _address = MutableLiveData<String>()
+    val address: LiveData<String> get() = _address
+
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
@@ -40,6 +46,8 @@ class AuthViewModel : ViewModel() {
                     if (document != null && document.exists()) {
                         _username.value = document.getString("username")
                         _email.value = document.getString("email")
+                        _phoneNumbar.value = document.getString("phoneNumber")
+                        _address.value = document.getString("address")
                     }
                 }
         }

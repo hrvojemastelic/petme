@@ -6,6 +6,15 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <TextView
+        android:id="@+id/yourInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Information:"
+        android:textSize="18dp"
+        android:layout_gravity="left"
+        android:paddingBottom="4dp" />
+
     <!-- Username TextView -->
     <TextView
         android:id="@+id/usernameTextView"
@@ -13,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text=""
         android:visibility="gone"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="left"
         android:paddingBottom="4dp" />
 
     <!-- Email TextView -->
@@ -23,7 +32,25 @@
         android:layout_height="wrap_content"
         android:text=""
         android:visibility="gone"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="left"
+        android:paddingBottom="16dp" />
+
+    <TextView
+        android:id="@+id/phoneTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone"
+        android:layout_gravity="left"
+        android:paddingBottom="16dp" />
+
+    <TextView
+        android:id="@+id/addressTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone"
+        android:layout_gravity="left"
         android:paddingBottom="16dp" />
 
     <!-- Login Form -->
