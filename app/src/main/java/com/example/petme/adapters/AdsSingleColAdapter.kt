@@ -1,5 +1,6 @@
 package com.example.petme.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.petme.R
 import com.example.petme.models.ClassifiedAd
+import com.example.petme.ui.fullAd.FullAdActivity
 
 class AdsSingleColAdapter(
     var adsList: MutableList<ClassifiedAd>,
@@ -26,6 +28,12 @@ class AdsSingleColAdapter(
         val ad = adsList[position]
         holder.bind(ad)
 
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, FullAdActivity::class.java)
+            intent.putExtra("adId", ad.id) // Pass the adId as a String
+            context.startActivity(intent)
+        }
 
     }
 
@@ -55,6 +63,7 @@ class AdsSingleColAdapter(
             } else {
                 adImage.setImageResource(R.drawable.placeholder_image)
             }
+
             deleteButton.visibility = if (showDeleteButton) View.VISIBLE else View.GONE
             // Set delete button action
             deleteButton.setOnClickListener {

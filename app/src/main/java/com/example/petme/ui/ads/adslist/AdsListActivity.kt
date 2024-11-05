@@ -1,6 +1,7 @@
 package com.example.petme.ui.ads.adslist
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
@@ -81,7 +82,7 @@ class AdsListActivity : AppCompatActivity() {
                     val ad = document.toObject(ClassifiedAd::class.java)
                     adsList.add(ad)
                 }
-
+                Log.d("adslist",adsList.toString())
                 // Filter ads based on the selected category
                 val filteredAds = if (category.isEmpty() || category == "All") {
                     adsList // Show all ads if category is empty or "All"
