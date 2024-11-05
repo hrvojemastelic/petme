@@ -59,10 +59,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.5.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.google.firebase:firebase-auth:22.1.0")
-    implementation ("com.google.firebase:firebase-firestore:24.9.")
+    implementation ("com.google.firebase:firebase-firestore:24.9.0")
     implementation ("com.google.firebase:firebase-storage-ktx")
     implementation ("com.google.firebase:firebase-firestore-ktx")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
+    implementation ("com.jsibbold:zoomage:1.3.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
 
