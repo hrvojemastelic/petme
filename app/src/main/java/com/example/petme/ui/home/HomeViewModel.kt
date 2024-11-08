@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.petme.R
 import com.example.petme.models.ClassifiedAd
+import com.google.firebase.Timestamp
 import java.util.Date
 
 class HomeViewModel : ViewModel() {
@@ -25,7 +26,10 @@ class HomeViewModel : ViewModel() {
         _slideshowImages.value = listOf(
             R.drawable.image1,
             R.drawable.image2,
-            R.drawable.image3
+            R.drawable.image4,
+            R.drawable.image3,
+            R.drawable.image5
+
         )
 
         // Initialize recommended ads
@@ -40,7 +44,7 @@ class HomeViewModel : ViewModel() {
                 breed = "Golden Retriever",
                 imageUrls = listOf("url_to_image_1", "url_to_image_2"),
                 category = "dogs",
-                date = "2023-10-01"
+                date = Timestamp.now()
             ),
             ClassifiedAd(
                 id = "2",
@@ -52,7 +56,7 @@ class HomeViewModel : ViewModel() {
                 breed = "Siamese",
                 imageUrls = listOf("url_to_image_3"),
                 category = "cats",
-                date = "2023-10-02"
+                date = Timestamp.now()
             ),
             ClassifiedAd(
                 id = "3",
@@ -64,7 +68,7 @@ class HomeViewModel : ViewModel() {
                 breed = "N/A",
                 imageUrls = listOf("url_to_image_4"),
                 category = "small pets",
-                date = "2023-10-02"
+                date = Timestamp.now()
             ),
             ClassifiedAd(
                 id = "4",
@@ -76,7 +80,7 @@ class HomeViewModel : ViewModel() {
                 breed = "N/A",
                 imageUrls = listOf("url_to_image_5"),
                 category = "fish",
-                date = "2023-10-04"
+                date = Timestamp.now()
             ),
             ClassifiedAd(
                 id = "5",
@@ -88,7 +92,7 @@ class HomeViewModel : ViewModel() {
                 breed = "N/A",
                 imageUrls = listOf("url_to_image_6"),
                 category = "reptiles",
-                date = "2023-10-02"
+                date = Timestamp.now()
             )
         )
 

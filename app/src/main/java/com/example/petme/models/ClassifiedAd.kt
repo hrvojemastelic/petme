@@ -1,6 +1,7 @@
 package com.example.petme.models
 
 import java.util.Date
+import com.google.firebase.Timestamp
 
 
 data class ClassifiedAd(
@@ -14,10 +15,10 @@ data class ClassifiedAd(
     val breed: String,
     val imageUrls: List<String>,
     val category: String,
-    val date:String
+    val date:Timestamp
 )
 
 {
     // No-argument constructor required for Firebase
-    constructor() : this("", "", "", "", 0.0, 0, "", emptyList(), "", "")
+    constructor() : this("", "", "", "", 0.0, 0, "", emptyList(), "", Timestamp.now())
 }

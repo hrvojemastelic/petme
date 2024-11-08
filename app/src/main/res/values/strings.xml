@@ -22,5 +22,6 @@
         <item>Farm Animals</item>
         <item>Birds</item>
         <item>Reptiles</item>
+        <item>Others</item>
     </string-array>
 </resources>

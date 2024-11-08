@@ -1,5 +1,7 @@
 package com.example.petme.models
 
+import com.google.firebase.Timestamp
+
 data class UserAccount(
     val userId: String = "",
     val username: String = "",
@@ -7,5 +9,5 @@ data class UserAccount(
     val phoneNumber: String = "",
     val address: String = "",
     val accountType: String = "",
-    val dateOfCreation: String = ""
+    val dateOfCreation: Timestamp = Timestamp.now()
 )

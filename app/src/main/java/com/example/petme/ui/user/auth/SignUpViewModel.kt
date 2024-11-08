@@ -2,6 +2,7 @@ package com.example.petme.ui.user.auth
 
 import androidx.lifecycle.ViewModel
 import com.example.petme.models.UserAccount
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
@@ -34,7 +35,6 @@ class SignUpViewModel : ViewModel() {
         address: String, accountType: String, username: String,
         onSuccess: () -> Unit, onFailure: (Exception) -> Unit
     ) {
-        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
         val userAccount = UserAccount(
             userId = userId,
             username = username,
@@ -42,7 +42,7 @@ class SignUpViewModel : ViewModel() {
             phoneNumber = phoneNumber,
             address = address,
             accountType = accountType,
-            dateOfCreation = currentDate
+            dateOfCreation = Timestamp.now()
         )
 
         firestore.collection("users").document(userId).set(userAccount)

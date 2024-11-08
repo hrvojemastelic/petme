@@ -78,4 +78,5 @@ class AdsSingleColAdapter(
         adsList.addAll(newAds)
         notifyDataSetChanged() // Notify the adapter that data has changed
     }
+
 }

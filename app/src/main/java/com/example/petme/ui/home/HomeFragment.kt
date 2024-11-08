@@ -65,6 +65,39 @@ class HomeFragment : Fragment() {
             recyclerView.adapter = adapter
         }
 
+        val showAllC = binding.showAllCategories
+        val showAllCategoriesText = binding.showAllCategoriesText
+        val hiddenCategory1 = binding.hiddenCategory1
+        val hiddenCategory2 = binding.hiddenCategory2
+        val hiddenCategory3 = binding.hiddenCategory3
+
+        showAllC.setOnClickListener{
+            if (hiddenCategory1.visibility == View.GONE) {
+                hiddenCategory1.visibility = View.VISIBLE
+                hiddenCategory2.visibility = View.VISIBLE
+                hiddenCategory3.visibility = View.VISIBLE
+                showAllCategoriesText.text = "Hide all categories"
+            } else {
+                hiddenCategory1.visibility = View.GONE
+                hiddenCategory2.visibility = View.GONE
+                hiddenCategory3.visibility = View.GONE
+                showAllCategoriesText.text = "Show more categories"
+            }
+
+        }
+        showAllCategoriesText.setOnClickListener {
+            if (hiddenCategory1.visibility == View.GONE) {
+                hiddenCategory1.visibility = View.VISIBLE
+                hiddenCategory2.visibility = View.VISIBLE
+                hiddenCategory3.visibility = View.VISIBLE
+                showAllCategoriesText.text = "Hide categories"
+            } else {
+                hiddenCategory1.visibility = View.GONE
+                hiddenCategory2.visibility = View.GONE
+                hiddenCategory3.visibility = View.GONE
+                showAllCategoriesText.text = "Show more categories"
+            }
+        }
         return root
     }
 

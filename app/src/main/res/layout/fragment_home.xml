@@ -50,7 +50,7 @@
                 <ImageView
                     android:id="@+id/icon_dog"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_dog"
                     android:contentDescription="Dog"
@@ -63,6 +63,7 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
 
@@ -79,7 +80,7 @@
                 <ImageView
                     android:id="@+id/icon_horse"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_horse"
                     android:contentDescription="Horse"
@@ -91,6 +92,7 @@
                     android:text="Horses"
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     android:gravity="center"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
@@ -108,7 +110,7 @@
                 <ImageView
                     android:id="@+id/icon_snake"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_snake"
                     android:contentDescription="Snake"
@@ -119,6 +121,7 @@
                     android:layout_height="wrap_content"
                     android:text="Reptiles"
                     android:textColor="@color/white"
+                    android:textStyle="bold"
                     android:textSize="14sp"
                     android:gravity="center"
                     android:layout_marginTop="8dp" />
@@ -136,7 +139,7 @@
                 <ImageView
                     android:id="@+id/icon_cat"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_cat"
                     android:contentDescription="Cat"
@@ -148,6 +151,7 @@
                     android:text="Cats"
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     android:gravity="center"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
@@ -165,7 +169,7 @@
                 <ImageView
                     android:id="@+id/icon_fish"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_fish"
                     android:contentDescription="Fish"
@@ -177,6 +181,7 @@
                     android:text="Fish"
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     android:gravity="center"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
@@ -194,7 +199,7 @@
                 <ImageView
                     android:id="@+id/icon_bird"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_bird"
                     android:contentDescription="Bird"
@@ -206,10 +211,117 @@
                     android:text="Birds"
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     android:gravity="center"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/hiddenCategory1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_columnWeight="1"
+                android:visibility="gone"
+
+                android:background="@drawable/rounded_grid_image"
+                android:padding="10dp">
+
+                <ImageView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_bird"
+                    android:contentDescription="Bird"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Category 1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hiddenCategory2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_columnWeight="1"
+                android:visibility="gone"
+
+                android:background="@drawable/rounded_grid_image"
+                android:padding="10dp">
+                <ImageView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_bird"
+                    android:contentDescription="Bird"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Category 2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hiddenCategory3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_columnWeight="1"
+                android:visibility="gone"
+                android:background="@drawable/rounded_grid_image"
+                android:padding="10dp">
+
+                <ImageView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_bird"
+                    android:contentDescription="Bird"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Category 3" />
+            </LinearLayout>
         </androidx.gridlayout.widget.GridLayout>
+        <LinearLayout
+            android:id="@+id/showAllCategories"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:layout_margin="8dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/rounded_image_background"
+            android:padding="0dp">
+
+
+            <TextView
+                android:id="@+id/showAllCategoriesText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show more categories"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:padding="0dp"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/allCategories"
@@ -225,7 +337,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="All Categories"
-                android:textSize="16sp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:layout_marginTop="8dp" />
