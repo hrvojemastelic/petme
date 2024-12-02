@@ -10,12 +10,14 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.petme.R
 import com.example.petme.databinding.ActivityAddAdBinding
 import com.example.petme.models.ClassifiedAd
 import com.google.firebase.auth.FirebaseAuth
@@ -125,41 +127,45 @@ class AddAdActivity : AppCompatActivity() {
         val ageText = binding.etAge.text.toString().trim()
         val category = binding.spinnerCategory.selectedItem.toString()
         val breed = binding.etBreed.text.toString().trim()
-
-        if (title.isEmpty() || description.isEmpty() || priceText.isEmpty() ||
-            ageText.isEmpty() || category == "Select Category" || breed.isEmpty() || selectedImages.isEmpty()
+        val region = binding.spinner.selectedItem.toString()
+        val address = binding.address.text.toString().trim()
+        val phoneNumberText = binding.phoneNumber.text.toString().trim()
+        if (title.trim().isEmpty() || description.trim().isEmpty() || priceText.isEmpty() ||
+            ageText.isEmpty() || category == "Select Category" || category.trim().isEmpty() || breed.isEmpty() || selectedImages.isEmpty()
+             || region == "Select Category" || region.trim().isEmpty() || address.trim().isEmpty() || phoneNumberText.trim().isEmpty()
         ) {
             binding.btnSaveAd.isEnabled = true
             binding.progressBar.visibility = View.GONE
             binding.mainContentLayout.visibility = View.VISIBLE
 
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please fill in all fields and add pictures", Toast.LENGTH_SHORT).show()
             return
         }
 
         val price = priceText.toDoubleOrNull()
         val age = ageText.toIntOrNull()
+        val phoneNumber = phoneNumberText.toIntOrNull()
 
-        if (price == null || age == null) {
+        if (price == null || age == null || phoneNumber == null) {
             binding.btnSaveAd.isEnabled = true
             binding.progressBar.visibility = View.GONE
             binding.mainContentLayout.visibility = View.VISIBLE
 
-            Toast.makeText(this, "Invalid price or age format", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Invalid price or age or phone number format", Toast.LENGTH_SHORT).show()
             return
         }
 
         binding.progressBar.visibility = View.VISIBLE
         binding.mainContentLayout.visibility = View.GONE
 
-        uploadImagesAndSaveAd(title, description, price, age, category, breed)
+        uploadImagesAndSaveAd(title, description, price, age, category, breed,region,address,phoneNumber)
     }
 
-    private fun uploadImagesAndSaveAd(title: String, description: String, price: Double, age: Int, category: String, breed: String) {
+    private fun uploadImagesAndSaveAd(title: String, description: String, price: Double, age: Int, category: String, breed: String,region:String,address:String,phoneNumber: Int) {
         val user = auth.currentUser
         if (user != null && selectedImages.isNotEmpty()) {
             val imageUrls = mutableListOf<String>()
-            uploadImage(0, imageUrls, title, description, price, age, category, breed)
+            uploadImage(0, imageUrls, title, description, price, age, category, breed,region,address,phoneNumber)
         }
     }
 
@@ -171,7 +177,10 @@ class AddAdActivity : AppCompatActivity() {
         price: Double,
         age: Int,
         category: String,
-        breed: String
+        breed: String,
+        region:String,
+        address:String,
+        phoneNumber: Int
     ) {
         if (index < selectedImages.size) {
             val uri = selectedImages[index]
@@ -182,7 +191,7 @@ class AddAdActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
                             imageUrls.add(downloadUri.toString())
-                            uploadImage(index + 1, imageUrls, title, description, price, age, category, breed)
+                            uploadImage(index + 1, imageUrls, title, description, price, age, category, breed,region,address,phoneNumber)
                         }
                     }
                     .addOnFailureListener {
@@ -196,7 +205,7 @@ class AddAdActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error processing image", Toast.LENGTH_SHORT).show()
             }
         } else {
-            saveAdToFirestore(title, description, price, age, category, breed, imageUrls)
+            saveAdToFirestore(title, description, price, age, category, breed, imageUrls,region,address,phoneNumber)
         }
     }
 
@@ -223,7 +232,10 @@ class AddAdActivity : AppCompatActivity() {
         age: Int,
         category: String,
         breed: String,
-        imageUrls: List<String>
+        imageUrls: List<String>,
+        region: String,
+        address: String,
+        phoneNumber: Int
     ) {
         val user = auth.currentUser
         if (user != null) {
@@ -239,7 +251,10 @@ class AddAdActivity : AppCompatActivity() {
                 "imageUrls" to imageUrls,
                 "userId" to user.uid,
                 "email" to user.email,
-                "dateCreated" to Date()
+                "dateCreated" to Date(),
+                "region" to region,
+                "address" to address,
+                "phoneNumber" to phoneNumber
             )
 
             firestore.collection("ads")

@@ -15,10 +15,14 @@ data class ClassifiedAd(
     val breed: String,
     val imageUrls: List<String>,
     val category: String,
-    val date:Timestamp
+    val date:Timestamp,
+    val region:String,
+    val address:String,
+    val phoneNumber:Int
+
 )
 
 {
     // No-argument constructor required for Firebase
-    constructor() : this("", "", "", "", 0.0, 0, "", emptyList(), "", Timestamp.now())
+    constructor() : this("", "", "", "", 0.0, 0, "", emptyList(), "", Timestamp.now(),"","",0)
 }

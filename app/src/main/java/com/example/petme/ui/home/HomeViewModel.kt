@@ -18,8 +18,8 @@ class HomeViewModel : ViewModel() {
     val slideshowImages: LiveData<List<Int>> = _slideshowImages
 
     // LiveData for Recommended Listings (Classified Ads)
-    private val _recommendedAds = MutableLiveData<List<ClassifiedAd>>()
-    val recommendedAds: LiveData<List<ClassifiedAd>> = _recommendedAds
+    //private val _recommendedAds = MutableLiveData<List<ClassifiedAd>>()
+   // val recommendedAds: LiveData<List<ClassifiedAd>> = _recommendedAds
 
     init {
         // Initialize slideshow images
@@ -33,7 +33,7 @@ class HomeViewModel : ViewModel() {
         )
 
         // Initialize recommended ads
-        _recommendedAds.value = listOf(
+      /*  _recommendedAds.value = listOf(
             ClassifiedAd(
                 id = "1",
                 userId = "user_1",
@@ -44,7 +44,10 @@ class HomeViewModel : ViewModel() {
                 breed = "Golden Retriever",
                 imageUrls = listOf("url_to_image_1", "url_to_image_2"),
                 category = "dogs",
-                date = Timestamp.now()
+                date = Timestamp.now(),
+                region = "Split",
+                address = "vl natoo",
+                phoneNumber = 123123
             ),
             ClassifiedAd(
                 id = "2",
@@ -56,7 +59,10 @@ class HomeViewModel : ViewModel() {
                 breed = "Siamese",
                 imageUrls = listOf("url_to_image_3"),
                 category = "cats",
-                date = Timestamp.now()
+                date = Timestamp.now(),
+                region = "Split",
+                address = "vl natoo",
+                phoneNumber = 123123
             ),
             ClassifiedAd(
                 id = "3",
@@ -68,7 +74,10 @@ class HomeViewModel : ViewModel() {
                 breed = "N/A",
                 imageUrls = listOf("url_to_image_4"),
                 category = "small pets",
-                date = Timestamp.now()
+                date = Timestamp.now(),
+                region = "Split",
+                address = "vl natoo",
+                phoneNumber = 123123
             ),
             ClassifiedAd(
                 id = "4",
@@ -80,7 +89,10 @@ class HomeViewModel : ViewModel() {
                 breed = "N/A",
                 imageUrls = listOf("url_to_image_5"),
                 category = "fish",
-                date = Timestamp.now()
+                date = Timestamp.now(),
+                region = "Split",
+                address = "vl natoo",
+                phoneNumber = 123123
             ),
             ClassifiedAd(
                 id = "5",
@@ -92,14 +104,17 @@ class HomeViewModel : ViewModel() {
                 breed = "N/A",
                 imageUrls = listOf("url_to_image_6"),
                 category = "reptiles",
-                date = Timestamp.now()
+                date = Timestamp.now(),
+                region = "Split",
+                address = "vl natoo",
+                phoneNumber = 123123
             )
-        )
+        )*/
 
     }
 
     // Function to filter ads by category
-    fun getAdsByCategory(category: String): LiveData<List<ClassifiedAd>> {
+    /*fun getAdsByCategory(category: String): LiveData<List<ClassifiedAd>> {
         val filteredAds = MutableLiveData<List<ClassifiedAd>>()
 
         _allAds.value?.let { ads ->
@@ -111,5 +126,5 @@ class HomeViewModel : ViewModel() {
         }
 
         return filteredAds
-    }
+    */
 }

@@ -107,7 +107,7 @@ class AdsListActivity : AppCompatActivity() {
                 Log.d("adslist", adsList.toString())
 
                 // Filter ads based on the selected category
-                val filteredAds = if (category.isEmpty() || category == "All") {
+                val filteredAds = if (category.isEmpty() || category == "") {
                     adsList
                 } else {
                     adsList.filter { it.category.equals(category, ignoreCase = true) }

@@ -14,14 +14,39 @@
     </string-array>
 
     <string-array name="category_options">
+        <item>Select Category</item>
         <item>Dogs</item>
         <item>Cats</item>
         <item>Horses</item>
         <item>Rodents</item>
         <item>Fish</item>
-        <item>Farm Animals</item>
+        <item>Live stock</item>
         <item>Birds</item>
         <item>Reptiles</item>
         <item>Others</item>
+    </string-array>
+
+    <string-array name="croatian_regions">
+        <item>Select Category</item>
+        <item>Zagreb</item>
+        <item>Split-Dalmatia</item>
+        <item>Istria</item>
+        <item>Primorje-Gorski Kotar</item>
+        <item>Dubrovnik-Neretva</item>
+        <item>Zadar</item>
+        <item>Šibenik-Knin</item>
+        <item>Lika-Senj</item>
+        <item>Karlovac</item>
+        <item>Sisak-Moslavina</item>
+        <item>Osijek-Baranja</item>
+        <item>Vukovar-Syrmia</item>
+        <item>Varaždin</item>
+        <item>Međimurje</item>
+        <item>Koprivnica-Križevci</item>
+        <item>Bjelovar-Bilogora</item>
+        <item>Požega-Slavonia</item>
+        <item>Virovitica-Podravina</item>
+        <item>Krapina-Zagorje</item>
+        <item>Zagreb County</item>
     </string-array>
 </resources>

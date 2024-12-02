@@ -38,6 +38,7 @@
             app:columnCount="3">
 
             <LinearLayout
+                android:id="@+id/dogs"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -68,6 +69,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/horses"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -98,6 +100,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/reptails"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -127,6 +130,7 @@
                     android:layout_marginTop="8dp" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/cats"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -157,6 +161,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/fish"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -187,6 +192,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/birds"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -216,7 +222,7 @@
                     android:layout_marginTop="8dp" />
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/hiddenCategory1"
+                android:id="@+id/livestock"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -233,19 +239,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_bird"
-                    android:contentDescription="Bird"
+                    android:src="@drawable/ic_livestock"
+                    android:contentDescription="livestock"
                     android:scaleType="centerCrop" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="Category 1" />
+                    android:text="Farm An." />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/hiddenCategory2"
+                android:id="@+id/rodents"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -261,7 +267,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_bird"
+                    android:src="@drawable/ratic_"
                     android:contentDescription="Bird"
                     android:scaleType="centerCrop" />
 
@@ -269,11 +275,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="Category 2" />
+                    android:text="Rodents" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/hiddenCategory3"
+                android:id="@+id/others"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -297,7 +303,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="Category 3" />
+                    android:text="Others" />
             </LinearLayout>
         </androidx.gridlayout.widget.GridLayout>
         <LinearLayout
@@ -358,7 +364,23 @@
             android:id="@+id/recyclerViewListings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="300dp"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Live stock"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold" />
+
+        <!-- Recommended Ads (RecyclerView with fixed height) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/liveStockAds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:nestedScrollingEnabled="false" />
 

@@ -4,20 +4,27 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.njuapp.adapter.ImageSliderAdapter
+import com.example.petme.MainActivity
 import com.example.petme.R
 import com.example.petme.databinding.FragmentHomeBinding
 import com.example.petme.adapters.AdsAdapter
+import com.example.petme.models.ClassifiedAd
 import com.example.petme.ui.ads.adslist.AdsListActivity
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeFragment : Fragment() {
 
@@ -27,7 +34,12 @@ class HomeFragment : Fragment() {
 
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
+    private lateinit var firestore: FirebaseFirestore
+    private var dogsList = mutableListOf<ClassifiedAd>()
+    private var liveStockList = mutableListOf<ClassifiedAd>()
 
+    private lateinit var recyclerView : RecyclerView
+    private lateinit var recyclerViewLiveStock : RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,7 +47,7 @@ class HomeFragment : Fragment() {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        firestore = FirebaseFirestore.getInstance()
         // Set up ViewPager2 for Slideshow
         val viewPager = binding.viewPager
         val tabLayout = binding.tabLayout
@@ -53,23 +65,29 @@ class HomeFragment : Fragment() {
         }
 
         // Set up RecyclerView for Recommended Listings with GridLayoutManager (2 columns)
-        val recyclerView = binding.recyclerViewListings
+        recyclerView = binding.recyclerViewListings
+        recyclerViewLiveStock = binding.liveStockAds
         recyclerView.setHasFixedSize(true)
+        recyclerViewLiveStock.setHasFixedSize(true)
+        val lineraLayout = LinearLayoutManager(requireContext())
+        lineraLayout.orientation = LinearLayoutManager.HORIZONTAL
         val gridLayoutManager = GridLayoutManager(requireContext(), 2) // 2 columns
         recyclerView.layoutManager = gridLayoutManager
+        recyclerViewLiveStock.layoutManager = lineraLayout
 
-        homeViewModel.recommendedAds.observe(viewLifecycleOwner) { ads ->
+       /* homeViewModel.recommendedAds.observe(viewLifecycleOwner) { ads ->
             // Show only the first 4 ads
             val limitedAds = ads.take(4).toMutableList()  // Convert to MutableList
             val adapter = AdsAdapter(limitedAds)
             recyclerView.adapter = adapter
-        }
+        }*/
+        fetcDoghAdsFromFirestore()
 
         val showAllC = binding.showAllCategories
         val showAllCategoriesText = binding.showAllCategoriesText
-        val hiddenCategory1 = binding.hiddenCategory1
-        val hiddenCategory2 = binding.hiddenCategory2
-        val hiddenCategory3 = binding.hiddenCategory3
+        val hiddenCategory1 = binding.livestock
+        val hiddenCategory2 = binding.rodents
+        val hiddenCategory3 = binding.others
 
         showAllC.setOnClickListener{
             if (hiddenCategory1.visibility == View.GONE) {
@@ -109,12 +127,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpCategoryIcons() {
-        binding.iconDog.setOnClickListener { openAdsListFragment("dogs") }
-        binding.iconCat.setOnClickListener { openAdsListFragment("cats") }
-        binding.iconHorse.setOnClickListener { openAdsListFragment("horses") }
-        binding.iconSnake.setOnClickListener { openAdsListFragment("reptiles") }
-        binding.iconFish.setOnClickListener { openAdsListFragment("fish") }
-        binding.iconBird.setOnClickListener { openAdsListFragment("birds") }
+        binding.dogs.setOnClickListener { openAdsListFragment("dogs") }
+        binding.horses.setOnClickListener { openAdsListFragment("cats") }
+        binding.reptails.setOnClickListener { openAdsListFragment("horses") }
+        binding.cats.setOnClickListener { openAdsListFragment("reptiles") }
+        binding.fish.setOnClickListener { openAdsListFragment("fish") }
+        binding.birds.setOnClickListener { openAdsListFragment("birds") }
+        binding.livestock.setOnClickListener { openAdsListFragment("live stock") }
+        binding.rodents.setOnClickListener { openAdsListFragment("rodents") }
+        binding.others.setOnClickListener { openAdsListFragment("others") }
+
         binding.allCategories.setOnClickListener({openAdsListFragment("")})
     }
 
@@ -138,6 +160,43 @@ class HomeFragment : Fragment() {
             handler.postDelayed(runnable, 3000) // Change image every 3 seconds
         }
         handler.postDelayed(runnable, 3000) // Initial delay
+    }
+
+
+    private fun fetcDoghAdsFromFirestore() {
+        val adsCollection = firestore.collection("ads")
+
+        adsCollection
+            .get()
+            .addOnSuccessListener { result ->
+                dogsList.clear()
+                liveStockList.clear()
+
+                for (document in result) {
+                    Log.d("rezultat",document.toString())
+
+                    val ad = document.toObject(ClassifiedAd::class.java)
+                    dogsList.add(ad)
+                    liveStockList.add(ad)
+                }
+                Log.d("adslist", dogsList.toString())
+
+                // Filter ads based on the selected category
+                val filteredAdsDogs = dogsList.filter { it.category.equals("dogs", ignoreCase = true) }
+                val filterAdsLiveStock  = liveStockList.filter { it.category.equals("live stock", ignoreCase = true) }
+
+                val limitedAds = filteredAdsDogs.take(4).toMutableList()  // Convert to MutableList
+                val adapter = AdsAdapter(limitedAds)
+                recyclerView.adapter = adapter
+
+                val limitedAdsLiveStock = filterAdsLiveStock.take(8).toMutableList() // Convert to MutableList
+                System.out.println("livestock" + liveStockList.toString())
+                val adapterLiveStock = AdsAdapter(limitedAdsLiveStock)
+                recyclerViewLiveStock.adapter = adapterLiveStock
+            }
+            .addOnFailureListener { exception ->
+                System.out.println("exception on dogs list in home fragment" + exception.message.toString())
+            }
     }
 
     override fun onDestroyView() {
