@@ -1,5 +1,6 @@
 package com.example.petme.ui.fullAd
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
@@ -14,6 +15,8 @@ import com.example.petme.adapters.ImagePagerAdapter
 import com.example.petme.databinding.ActivityFullAdBinding
 import com.example.petme.models.ClassifiedAd
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class FullAdActivity : AppCompatActivity() {
 
@@ -42,6 +45,7 @@ class FullAdActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
                     val ad = document.toObject(ClassifiedAd::class.java)
+                    Log.d("ad full", ad.toString())
                     ad?.let { displayAdDetails(it) }
                 }
             }
@@ -50,12 +54,27 @@ class FullAdActivity : AppCompatActivity() {
             }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun displayAdDetails(ad: ClassifiedAd) {
         findViewById<TextView>(R.id.priceTextView).text = "$${ad.price}"
         findViewById<TextView>(R.id.titleTextView).text = ad.title
         findViewById<TextView>(R.id.descriptionTextView).text = ad.description
-        findViewById<TextView>(R.id.ageTextView).text = "Age: ${ad.age} years"
-        findViewById<TextView>(R.id.breedTextView).text = "Breed: ${ad.breed}"
+        findViewById<TextView>(R.id.age).text = "Age: ${ad.age}"
+        findViewById<TextView>(R.id.breedTextView).text = ad.breed
+        //Convert date
+        val date = ad.date.toDate()
+        // Format Date
+        val dateFormat = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
+        val formattedDate = dateFormat.format(date)
+        findViewById<TextView>(R.id.date).text = formattedDate
+
+        findViewById<TextView>(R.id.phoneNumber).text = "${ad.phoneNumber}"
+
+        findViewById<TextView>(R.id.address).text =ad.address
+        findViewById<TextView>(R.id.region).text = ad.region
+        findViewById<TextView>(R.id.category).text = ad.category
+
+
 
         // Setup ViewPager with image URLs
         val viewPager = findViewById<ViewPager>(R.id.viewPager)

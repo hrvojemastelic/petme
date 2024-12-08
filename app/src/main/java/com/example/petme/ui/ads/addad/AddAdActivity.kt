@@ -132,7 +132,7 @@ class AddAdActivity : AppCompatActivity() {
         val phoneNumberText = binding.phoneNumber.text.toString().trim()
         if (title.trim().isEmpty() || description.trim().isEmpty() || priceText.isEmpty() ||
             ageText.isEmpty() || category == "Select Category" || category.trim().isEmpty() || breed.isEmpty() || selectedImages.isEmpty()
-             || region == "Select Category" || region.trim().isEmpty() || address.trim().isEmpty() || phoneNumberText.trim().isEmpty()
+             || region == "Select Region" || region.trim().isEmpty() || address.trim().isEmpty() || phoneNumberText.trim().isEmpty()
         ) {
             binding.btnSaveAd.isEnabled = true
             binding.progressBar.visibility = View.GONE

@@ -1,5 +1,6 @@
 package com.example.petme.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.petme.R
 import com.example.petme.databinding.ItemAdBinding
 import com.example.petme.models.ClassifiedAd
+import com.example.petme.ui.fullAd.FullAdActivity
 
 class AdsAdapter(private var adsList: MutableList<ClassifiedAd>) : RecyclerView.Adapter<AdsAdapter.AdViewHolder>() {
 
@@ -18,6 +20,15 @@ class AdsAdapter(private var adsList: MutableList<ClassifiedAd>) : RecyclerView.
     override fun onBindViewHolder(holder: AdViewHolder, position: Int) {
         val ad = adsList[position]
         holder.bind(ad)
+
+
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, FullAdActivity::class.java)
+            intent.putExtra("adId", ad.id) // Pass the adId as a String
+            context.startActivity(intent)
+        }
+
     }
 
     override fun getItemCount(): Int = adsList.size
