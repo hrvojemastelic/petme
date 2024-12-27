@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Category Dropdown -->
+        <Spinner
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/category_options"
+            android:hint="Select Category"
+            android:background="@drawable/rounded_addad_background"
+            />
+
+        <!-- Region Dropdown -->
+        <Spinner
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/spinnerRegion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/croatian_regions"
+            android:hint="Select Region"
+            android:background="@drawable/rounded_addad_background"
+            />
+
+        <!-- Type of Ad Dropdown -->
+        <Spinner
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/spinnerTypeOfAd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/typeOfAd"
+            android:hint="Type of Ad"
+            android:background="@drawable/rounded_addad_background"
+            />
+
+        <Spinner
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/bloodTypeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/bloodType"
+            android:hint="Blood type"
+            android:background="@drawable/rounded_addad_background"
+            />
+
+        <!-- Breed Input -->
+
+
+        <!-- Minimum Price Input -->
+        <EditText
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/etMinPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Min Price"
+            android:inputType="numberDecimal"
+            android:background="@drawable/rounded_addad_background"
+            />
+
+        <!-- Maximum Price Input -->
+        <EditText
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/etMaxPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Max Price"
+            android:inputType="numberDecimal"
+            android:background="@drawable/rounded_addad_background"
+            />
+
+        <!-- Minimum Age Input -->
+        <EditText
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/etMinAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Min Age"
+            android:inputType="number"
+            android:background="@drawable/rounded_addad_background"
+            />
+
+        <!-- Maximum Age Input -->
+        <EditText
+            android:id="@+id/etMaxAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Max Age"
+            android:inputType="number"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_addad_background"
+            />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="16dp">
+
+
+
+        <Button
+            android:id="@+id/btnApply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Apply"
+            android:layout_margin="4dp"
+            />
+    </LinearLayout>
+        <!-- Apply and Cancel Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="6dp">
+
+
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:layout_margin="4dp"
+                />
+
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="6dp">
+        <Button
+            android:id="@+id/btnRemoveFilters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reset"
+            android:layout_margin="4dp"
+            />
+    </LinearLayout>
+    </LinearLayout>
+</ScrollView>

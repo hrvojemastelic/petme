@@ -130,10 +130,15 @@ class AddAdActivity : AppCompatActivity() {
         val region = binding.spinner.selectedItem.toString()
         val address = binding.address.text.toString().trim()
         val phoneNumberText = binding.phoneNumber.text.toString().trim()
+        val typeOfAd = binding.typeOfAd.selectedItem.toString()
+        val bloodType = binding.bloodType.selectedItem.toString()
         if (title.trim().isEmpty() || description.trim().isEmpty() || priceText.isEmpty() ||
             ageText.isEmpty() || category == "Select Category" || category.trim().isEmpty() || breed.isEmpty() || selectedImages.isEmpty()
              || region == "Select Region" || region.trim().isEmpty() || address.trim().isEmpty() || phoneNumberText.trim().isEmpty()
-        ) {
+            || typeOfAd =="Select type of ad" ||
+            typeOfAd.trim().isEmpty()    || bloodType =="Select blood" ||
+            bloodType.trim().isEmpty()
+            ) {
             binding.btnSaveAd.isEnabled = true
             binding.progressBar.visibility = View.GONE
             binding.mainContentLayout.visibility = View.VISIBLE
@@ -158,14 +163,14 @@ class AddAdActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
         binding.mainContentLayout.visibility = View.GONE
 
-        uploadImagesAndSaveAd(title, description, price, age, category, breed,region,address,phoneNumber)
+        uploadImagesAndSaveAd(title, description, price, age, category, breed,region,address,phoneNumber,typeOfAd,bloodType)
     }
 
-    private fun uploadImagesAndSaveAd(title: String, description: String, price: Double, age: Int, category: String, breed: String,region:String,address:String,phoneNumber: Int) {
+    private fun uploadImagesAndSaveAd(title: String, description: String, price: Double, age: Int, category: String, breed: String,region:String,address:String,phoneNumber: Int,typeOfAd:String,bloodType:String) {
         val user = auth.currentUser
         if (user != null && selectedImages.isNotEmpty()) {
             val imageUrls = mutableListOf<String>()
-            uploadImage(0, imageUrls, title, description, price, age, category, breed,region,address,phoneNumber)
+            uploadImage(0, imageUrls, title, description, price, age, category, breed,region,address,phoneNumber,typeOfAd,bloodType)
         }
     }
 
@@ -180,7 +185,9 @@ class AddAdActivity : AppCompatActivity() {
         breed: String,
         region:String,
         address:String,
-        phoneNumber: Int
+        phoneNumber: Int,
+        typeOfAd:String,
+        bloodType:String
     ) {
         if (index < selectedImages.size) {
             val uri = selectedImages[index]
@@ -191,7 +198,7 @@ class AddAdActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
                             imageUrls.add(downloadUri.toString())
-                            uploadImage(index + 1, imageUrls, title, description, price, age, category, breed,region,address,phoneNumber)
+                            uploadImage(index + 1, imageUrls, title, description, price, age, category, breed,region,address,phoneNumber,typeOfAd,bloodType)
                         }
                     }
                     .addOnFailureListener {
@@ -205,7 +212,7 @@ class AddAdActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error processing image", Toast.LENGTH_SHORT).show()
             }
         } else {
-            saveAdToFirestore(title, description, price, age, category, breed, imageUrls,region,address,phoneNumber)
+            saveAdToFirestore(title, description, price, age, category, breed, imageUrls,region,address,phoneNumber,typeOfAd,bloodType)
         }
     }
 
@@ -235,7 +242,9 @@ class AddAdActivity : AppCompatActivity() {
         imageUrls: List<String>,
         region: String,
         address: String,
-        phoneNumber: Int
+        phoneNumber: Int,
+        typeOfAd:String,
+        bloodType:String
     ) {
         val user = auth.currentUser
         if (user != null) {
@@ -254,7 +263,9 @@ class AddAdActivity : AppCompatActivity() {
                 "dateCreated" to Date(),
                 "region" to region,
                 "address" to address,
-                "phoneNumber" to phoneNumber
+                "phoneNumber" to phoneNumber,
+                "typeOfAd" to typeOfAd,
+                "bloodType" to bloodType
             )
 
             firestore.collection("ads")

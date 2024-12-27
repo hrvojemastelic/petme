@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +27,16 @@ class AdsListActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_CATEGORY = "category"
     }
+
+    // Variables to store filter selections
+    private var selectedCategory: String = "Select Category"
+    private var selectedRegion: String = "Select Region"
+    private var selectedTypeOfAd: String = "Select type of ad"
+    private var selectedBloodType: String = "Select blood"
+    private var minPriceInput: Double? = null
+    private var maxPriceInput: Double? = null
+    private var minAgeInput: Int? = null
+    private var maxAgeInput: Int? = null
 
     private lateinit var binding: ActivityAdsListBinding
     private lateinit var homeViewModel: HomeViewModel
@@ -78,7 +90,7 @@ class AdsListActivity : AppCompatActivity() {
         }
         // Set up Filter Button
         binding.btnFilter.setOnClickListener {
-            Toast.makeText(this, "Filter clicked", Toast.LENGTH_SHORT).show()
+            showFilterDialog()
             // Implement filter functionality here
         }
 
@@ -120,4 +132,130 @@ class AdsListActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error fetching ads: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
+
+    private fun showFilterDialog() {
+
+        val dialogView = layoutInflater.inflate(R.layout.dialog_filter, null)
+
+        // Initialize UI elements
+        val categorySpinner: Spinner = dialogView.findViewById(R.id.spinnerCategory)
+        val regionSpinner: Spinner = dialogView.findViewById(R.id.spinnerRegion)
+        val typeOfAdSpinner: Spinner = dialogView.findViewById(R.id.spinnerTypeOfAd)
+        val bloodTypeSpinner: Spinner = dialogView.findViewById(R.id.bloodTypeSpinner) // Optional
+        val etMinPrice: EditText = dialogView.findViewById(R.id.etMinPrice)
+        val etMaxPrice: EditText = dialogView.findViewById(R.id.etMaxPrice)
+        val etMinAge: EditText = dialogView.findViewById(R.id.etMinAge)
+        val etMaxAge: EditText = dialogView.findViewById(R.id.etMaxAge)
+
+
+        // Restore previous filter values
+        categorySpinner.setSelection((resources.getStringArray(R.array.category_options).indexOf(selectedCategory)))
+        regionSpinner.setSelection((resources.getStringArray(R.array.croatian_regions).indexOf(selectedRegion)))
+        typeOfAdSpinner.setSelection((resources.getStringArray(R.array.typeOfAd).indexOf(selectedTypeOfAd)))
+        bloodTypeSpinner.setSelection((resources.getStringArray(R.array.bloodType).indexOf(selectedBloodType)))
+        etMinPrice.setText(minPriceInput?.toString())
+        etMaxPrice.setText(maxPriceInput?.toString())
+        etMinAge.setText(minAgeInput?.toString())
+        etMaxAge.setText(maxAgeInput?.toString())
+
+        val dialog = android.app.AlertDialog.Builder(this)
+            .setTitle("Filter Ads")
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        // Cancel button to dismiss dialog
+        dialogView.findViewById<Button>(R.id.btnCancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // Apply filters and hide dialog
+        dialogView.findViewById<Button>(R.id.btnApply).setOnClickListener {
+            selectedCategory = categorySpinner.selectedItem?.toString() ?: "Select Category"
+            selectedRegion = regionSpinner.selectedItem?.toString() ?: "Select Region"
+            selectedTypeOfAd = typeOfAdSpinner.selectedItem?.toString() ?: "Select type of ad"
+            selectedBloodType = bloodTypeSpinner.selectedItem?.toString() ?: "Select blood" // Optional
+
+            minPriceInput = etMinPrice.text.toString().trim().toDoubleOrNull()
+            maxPriceInput = etMaxPrice.text.toString().trim().toDoubleOrNull()
+            minAgeInput = etMinAge.text.toString().trim().toIntOrNull()
+            maxAgeInput = etMaxAge.text.toString().trim().toIntOrNull()
+
+            applyFilters(
+                category = selectedCategory ?: "Select Category", // Default to "Select Category" if null
+                region = selectedRegion ?: "Select Region",       // Default to "Select Region" if null
+                typeOfAd = selectedTypeOfAd ?: "Select type of ad", // Default to "Select type of ad" if null
+                bloodType = selectedBloodType ?: "Select blood",    // Default to "Select blood" if null
+                minPrice = minPriceInput,
+                maxPrice = maxPriceInput,
+                minAge = minAgeInput,
+                maxAge = maxAgeInput
+            )
+
+            Toast.makeText(this, "Filters applied", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        // Remove all filters and reset the list
+        dialogView.findViewById<Button>(R.id.btnRemoveFilters).setOnClickListener {
+            selectedCategory = "Select Category"
+            selectedRegion = "Select Region"
+            selectedTypeOfAd = "Select type of ad"
+            selectedBloodType = "Select blood"
+            minPriceInput = null
+            maxPriceInput = null
+            minAgeInput = null
+            maxAgeInput = null
+
+            resetFilters()
+
+            Toast.makeText(this, "Filters removed", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+    private fun applyFilters(
+        category: String,
+        region: String,
+        typeOfAd: String,
+        bloodType: String,
+        minPrice: Double?, // These remain as Double for price range
+        maxPrice: Double?,
+        minAge: Int?,      // These remain as Int for age range
+        maxAge: Int?
+    ) {
+        val filteredAds = adsList.filter { ad ->
+            val matchesCategory = category == "Select Category" || ad.category == category
+            val matchesRegion = region == "Select Region" || ad.region == region
+            val matchesTypeOfAd = typeOfAd == "Select type of ad" || ad.typeOfAd == typeOfAd
+            val matchesBloodType = bloodType == "Select blood" || ad.bloodType == bloodType
+            val matchesMinPrice = minPrice == null || ad.price >= minPrice
+            val matchesMaxPrice = maxPrice == null || ad.price <= maxPrice
+            val matchesMinAge = minAge == null || ad.age >= minAge
+            val matchesMaxAge = maxAge == null || ad.age <= maxAge
+
+            // Combine all the conditions
+            matchesCategory && matchesRegion && matchesTypeOfAd &&
+                    matchesBloodType  &&
+                    matchesMinPrice && matchesMaxPrice &&
+                    matchesMinAge && matchesMaxAge
+        }
+
+        adsAdapter.updateAds(filteredAds)
+
+        if (filteredAds.isEmpty()) {
+            Toast.makeText(this, "No ads match the selected filters", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun resetFilters() {
+        // Clear any applied filters and reload the unfiltered data
+        fetchAdsFromFirestore()
+    // Replace this with your actual method to fetch and display the unfiltered list
+    }
+
 }

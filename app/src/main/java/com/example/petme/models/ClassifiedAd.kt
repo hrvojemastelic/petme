@@ -19,11 +19,12 @@ data class ClassifiedAd(
     val region:String,
     val address:String,
     val phoneNumber:Int,
-    val priceType:String
+    val typeOfAd:String,
+    val bloodType:String
 
 )
 
 {
     // No-argument constructor required for Firebase
-    constructor() : this("", "", "", "", 0.0, 0, "", emptyList(), "", Timestamp.now(),"","",0,"")
+    constructor() : this("", "", "", "", 0.0, 0, "", emptyList(), "", Timestamp.now(),"","",0,"","")
 }

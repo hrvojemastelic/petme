@@ -117,6 +117,36 @@
                 android:background="@drawable/rounded_addad_background"
                 android:layout_marginBottom="10dp"/>
 
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Type of ad"/>
+
+            <Spinner
+                android:id="@+id/typeOfAd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/typeOfAd"
+                android:background="@drawable/rounded_addad_background"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="Select blood type"/>
+
+            <Spinner
+                android:id="@+id/bloodType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/bloodType"
+                android:background="@drawable/rounded_addad_background"
+                android:layout_marginBottom="10dp"/>
+
             <EditText
                 android:id="@+id/etBreed"
                 android:layout_marginBottom="10dp"

@@ -13,6 +13,14 @@
         <item>Date: Oldest First</item>
     </string-array>
 
+    <string-array name="typeOfAd">
+        <item>Select type of ad</item>
+        <item>Iznajmljujem</item>
+        <item>Prodaja</item>
+        <item>Parenje</item>
+        <item>Poklanjam</item>
+    </string-array>
+
     <string-array name="category_options">
         <item>Select Category</item>
         <item>Dogs</item>
@@ -48,5 +56,11 @@
         <item>Virovitica-Podravina</item>
         <item>Krapina-Zagorje</item>
         <item>Zagreb County</item>
+    </string-array>
+
+    <string-array name="bloodType">
+        <item>Select blood</item>
+        <item>Čistokrvni</item>
+        <item>Mješanac</item>
     </string-array>
 </resources>

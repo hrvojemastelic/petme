@@ -51,7 +51,7 @@ class AdsSingleColAdapter(
         fun bind(ad: ClassifiedAd) {
             adTitle.text = ad.title
             adDescription.text = ad.description
-            adPrice.text = "$${ad.price}"
+            adPrice.text = "€${ad.price}"
 
             // Load image if available
             if (ad.imageUrls.isNotEmpty()) {

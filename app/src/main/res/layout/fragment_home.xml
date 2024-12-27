@@ -52,7 +52,7 @@
                 <ImageView
                     android:id="@+id/icon_dog"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_dog"
                     android:contentDescription="Dog"
@@ -83,7 +83,7 @@
                 <ImageView
                     android:id="@+id/icon_horse"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_horse"
                     android:contentDescription="Horse"
@@ -114,7 +114,7 @@
                 <ImageView
                     android:id="@+id/icon_snake"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_snake"
                     android:contentDescription="Snake"
@@ -144,7 +144,7 @@
                 <ImageView
                     android:id="@+id/icon_cat"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_cat"
                     android:contentDescription="Cat"
@@ -175,7 +175,7 @@
                 <ImageView
                     android:id="@+id/icon_fish"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_fish"
                     android:contentDescription="Fish"
@@ -206,7 +206,7 @@
                 <ImageView
                     android:id="@+id/icon_bird"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_bird"
                     android:contentDescription="Bird"
@@ -238,7 +238,7 @@
                 <ImageView
 
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_livestock"
                     android:contentDescription="livestock"
@@ -266,7 +266,7 @@
                 <ImageView
 
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:src="@drawable/ratic_"
                     android:contentDescription="Bird"
@@ -294,7 +294,7 @@
                 <ImageView
 
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_others"
                     android:contentDescription="Bird"
