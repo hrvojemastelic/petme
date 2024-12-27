@@ -3,7 +3,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-    android:background="@color/dark_gray">
+    android:background="@color/cardBack"
+    >
 
     <ImageView
         android:id="@+id/adImage"
