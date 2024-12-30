@@ -1,39 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- Sort Dropdown and Filter Button -->
-    <LinearLayout
+    <!-- AppBarLayout for collapsing behavior -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        >
 
-        <!-- Sort Dropdown -->
-        <Spinner
-            android:id="@+id/spinnerSort"
-            android:layout_width="0dp"
+        <!-- Header Layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:entries="@array/sort_options"/>
+            android:orientation="horizontal"
+            android:padding="16dp"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-        <!-- Filter Button -->
-        <Button
-            android:id="@+id/btnFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Filter"
-            android:layout_marginStart="8dp"/>
-    </LinearLayout>
+            <!-- Sort Dropdown -->
+            <Spinner
+                android:id="@+id/spinnerSort"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/sort_options"/>
+
+            <!-- Filter Button -->
+            <Button
+                android:id="@+id/btnFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <!-- RecyclerView for Ads -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAds"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"/>
-</LinearLayout>
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

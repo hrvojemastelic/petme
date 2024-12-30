@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar?.setDisplayShowCustomEnabled(true)
         actionBar?.setDisplayShowTitleEnabled(false)
+
         val customView = layoutInflater.inflate(R.layout.custom_action_bar, null)
         actionBar?.customView = customView
 

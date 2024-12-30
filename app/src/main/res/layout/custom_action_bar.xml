@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?attr/actionBarSize"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -14,7 +14,7 @@
         <!-- App Title -->
         <TextView
             android:id="@+id/appTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="PawPal"
@@ -33,7 +33,7 @@
             android:padding="8dp" />
     </LinearLayout>
 
-    <!-- Search Bar -->
+    <!-- Search Bar Row -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"

@@ -10,6 +10,7 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:statusBarColor">@color/redish</item>
+        <item name="actionBarSize">110dp</item>
 
         <!-- Customize your theme here. -->
 

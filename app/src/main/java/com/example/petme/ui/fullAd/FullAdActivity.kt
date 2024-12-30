@@ -7,6 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager.widget.ViewPager
@@ -28,7 +29,7 @@ class FullAdActivity : AppCompatActivity() {
         binding = ActivityFullAdBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        setupActionBar()
         val adId = intent.getStringExtra("adId") // Get adId as String
 
         if (adId != null) {
@@ -83,5 +84,30 @@ class FullAdActivity : AppCompatActivity() {
 
     private fun setupImageSlider(imageUrls: List<String>) {
         // Setup image slider here, or use a library for viewing images fullscreen on click
+    }
+
+    private fun setupActionBar() {
+        val actionBar = supportActionBar
+        actionBar?.setDisplayShowCustomEnabled(true)
+        actionBar?.setDisplayShowTitleEnabled(false)
+
+        val customView = layoutInflater.inflate(R.layout.custom_action_bar, null)
+        actionBar?.customView = customView
+
+        val searchView = customView.findViewById<SearchView>(R.id.searchView)
+        searchView.setIconifiedByDefault(false)
+        searchView.clearFocus()
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { searchForAds(it) }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?) = true
+        })
+    }
+    private fun searchForAds(query: String) {
+        // Implement search logic here
     }
 }

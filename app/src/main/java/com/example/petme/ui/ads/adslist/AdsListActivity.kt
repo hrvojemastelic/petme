@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.petme.R
@@ -50,6 +51,7 @@ class AdsListActivity : AppCompatActivity() {
         binding = ActivityAdsListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupActionBar()
         // Get category passed through intent
         category = intent.getStringExtra(EXTRA_CATEGORY) ?: "All"
 
@@ -59,6 +61,7 @@ class AdsListActivity : AppCompatActivity() {
         // Set up RecyclerView
         binding.recyclerViewAds.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewAds.setHasFixedSize(true)
+        binding.recyclerViewAds.clipToPadding = false
 
         // Set up sort dropdown (Spinner)
         val sortOptions = resources.getStringArray(R.array.sort_options)
@@ -102,6 +105,27 @@ class AdsListActivity : AppCompatActivity() {
         fetchAdsFromFirestore()
     }
 
+    private fun setupActionBar() {
+        val actionBar = supportActionBar
+        actionBar?.setDisplayShowCustomEnabled(true)
+        actionBar?.setDisplayShowTitleEnabled(false)
+
+        val customView = layoutInflater.inflate(R.layout.custom_action_bar, null)
+        actionBar?.customView = customView
+
+        val searchView = customView.findViewById<SearchView>(R.id.searchView)
+        searchView.setIconifiedByDefault(false)
+        searchView.clearFocus()
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { searchForAds(it) }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?) = true
+        })
+    }
     private fun fetchAdsFromFirestore() {
         val adsCollection = firestore.collection("ads")
 
@@ -258,4 +282,7 @@ class AdsListActivity : AppCompatActivity() {
     // Replace this with your actual method to fetch and display the unfiltered list
     }
 
+    private fun searchForAds(query: String) {
+        // Implement search logic here
+    }
 }

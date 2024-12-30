@@ -65,6 +65,8 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation ("com.jsibbold:zoomage:1.3.1")
     implementation ("com.google.android.gms:play-services-maps:18.1.0")
+    implementation ("com.google.android.material:material:1.9.0")
+
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
 
