@@ -11,11 +11,18 @@
         <item name="android:windowBackground">@color/white</item>
         <item name="android:statusBarColor">@color/redish</item>
         <item name="actionBarSize">110dp</item>
+        <item name="textFillColor">@color/primary_text_night</item>
 
         <!-- Customize your theme here. -->
 
     </style>
 
     <color name="textColorPrimary">#000000</color> <!-- Black for light theme -->
+
     <color name="cardBack">@color/dark_gray</color>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Petme" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
 </resources>

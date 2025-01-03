@@ -1,6 +1,7 @@
 package com.example.petme.adapters
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,12 +21,16 @@ class AdsAdapter(private var adsList: MutableList<ClassifiedAd>) : RecyclerView.
     override fun onBindViewHolder(holder: AdViewHolder, position: Int) {
         val ad = adsList[position]
         holder.bind(ad)
+        Log.d("uvatio",ad.toString())
 
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, FullAdActivity::class.java)
+            Log.d("uvatio",ad.toString())
             intent.putExtra("adId", ad.id) // Pass the adId as a String
+            intent.putExtra("userId", ad.userId) // Pass the adId as a String
+
             context.startActivity(intent)
         }
 

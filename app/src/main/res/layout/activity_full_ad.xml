@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    >
 
     <!-- Wrap all elements in a LinearLayout -->
     <LinearLayout
@@ -20,7 +20,8 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"/>
+            android:layout_marginBottom="6dp"
+            android:textColor="?attr/textFillColor"/>
 
         <!-- Title -->
         <TextView
@@ -30,6 +31,7 @@
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"
+            android:textColor="?attr/textFillColor"
             />
 
         <!-- Price -->
@@ -39,7 +41,8 @@
             android:layout_height="wrap_content"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:textColor="?attr/textFillColor"/>
 
 
         <TextView
@@ -49,13 +52,14 @@
             android:textStyle="bold"
             android:text="Osnovne Informacije:"
             android:layout_marginBottom="8dp"
+            android:textColor="?attr/textFillColor"
             />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/dark_gray"
+            android:background="@drawable/rounded_addad_background"
             android:layout_margin="4dp">
 
             <!-- Phone Number -->
@@ -80,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <!-- Age -->
@@ -105,7 +109,7 @@
                     android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <!-- Address -->
@@ -130,7 +134,7 @@
                     android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <!-- Region -->
@@ -155,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <!-- Category -->
@@ -180,7 +184,7 @@
                     android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <!-- Breed -->
@@ -205,7 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
         </LinearLayout>
@@ -218,6 +222,7 @@
             android:textStyle="bold"
             android:text="Više Informacije:"
             android:layout_marginBottom="8dp"
+            android:textColor="?attr/textFillColor"
             />
         <!-- Description -->
         <TextView
@@ -225,7 +230,62 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:textColor="?attr/textFillColor"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ostali oglasi korisnika"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold"
+            android:textColor="?attr/textFillColor"
+            />
+
+        <!-- Recommended Ads (RecyclerView with fixed height) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewwUserAads"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginBottom="10dp"/>
+
+
+    <LinearLayout
+        android:id="@+id/allAds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:padding="4dp">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@android:color/holo_blue_light"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Svi oglasi korisnika">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/ostaliOglasiKorsinika"
+            android:layout_width="wrap_content"
+            android:textColor="@android:color/holo_blue_light"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:textSize="20dp"
+
+            >
+
+        </TextView>
 
     </LinearLayout>
+    </LinearLayout>
+
+
+
 </ScrollView>

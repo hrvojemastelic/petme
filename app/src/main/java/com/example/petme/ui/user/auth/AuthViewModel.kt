@@ -2,6 +2,7 @@ package com.example.petme.ui.user.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.petme.session.UserSession
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -44,10 +45,23 @@ class AuthViewModel : ViewModel() {
             firestore.collection("users").document(it).get()
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
-                        _username.value = document.getString("username")
-                        _email.value = document.getString("email")
-                        _phoneNumbar.value = document.getString("phoneNumber")
-                        _address.value = document.getString("address")
+                        val fetchedUsername = document.getString("username")
+                        val fetchedEmail = document.getString("email")
+                        val fetchedPhoneNumber = document.getString("phoneNumber")
+                        val fetchedAddress = document.getString("address")
+
+
+                        _username.value = fetchedUsername
+                        _email.value = fetchedEmail
+                        _phoneNumbar.value = fetchedPhoneNumber
+                        _address.value = fetchedAddress
+
+                        // Update Singleton
+                        UserSession.userId = userId
+                        UserSession.username = fetchedUsername
+                        UserSession.email = fetchedEmail
+                        UserSession.phoneNumber = fetchedPhoneNumber
+                        UserSession.address = fetchedAddress
                     }
                 }
         }

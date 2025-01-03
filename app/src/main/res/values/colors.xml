@@ -11,4 +11,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="redish">#ba0d38</color>
+    <color name="primary_text">#FFFFFF</color>
+    <color name="primary_text_night">#000000</color>
+
 </resources>

@@ -3,6 +3,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.petme.R
 import com.example.petme.adapters.ImageViewPagerAdapter
@@ -16,6 +17,7 @@ class FullScreenImageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen_image)
 
+      setupActionBar()
         // Retrieve the image URLs from the intent
         imageUrls = intent.getStringArrayListExtra(EXTRA_IMAGE_URLS) ?: emptyList()
 
@@ -38,5 +40,30 @@ class FullScreenImageActivity : AppCompatActivity() {
                 putExtra(EXTRA_IMAGE_POSITION, initialPosition)
             }
         }
+    }
+
+    private fun setupActionBar() {
+        val actionBar = supportActionBar
+        actionBar?.setDisplayShowCustomEnabled(true)
+        actionBar?.setDisplayShowTitleEnabled(false)
+
+        val customView = layoutInflater.inflate(R.layout.custom_action_bar, null)
+        actionBar?.customView = customView
+
+        val searchView = customView.findViewById<SearchView>(R.id.searchView)
+        searchView.setIconifiedByDefault(false)
+        searchView.clearFocus()
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { searchForAds(it) }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?) = true
+        })
+    }
+    private fun searchForAds(query: String) {
+        // Implement search logic here
     }
 }

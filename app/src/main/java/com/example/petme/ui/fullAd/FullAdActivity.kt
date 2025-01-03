@@ -1,6 +1,7 @@
 package com.example.petme.ui.fullAd
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
@@ -10,11 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.petme.R
+import com.example.petme.adapters.AdsAdapter
 import com.example.petme.adapters.ImagePagerAdapter
 import com.example.petme.databinding.ActivityFullAdBinding
 import com.example.petme.models.ClassifiedAd
+import com.example.petme.session.UserSession
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -23,6 +30,7 @@ class FullAdActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFullAdBinding
     private val firestore = FirebaseFirestore.getInstance()
+    private lateinit var recyclerView : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +39,19 @@ class FullAdActivity : AppCompatActivity() {
 
         setupActionBar()
         val adId = intent.getStringExtra("adId") // Get adId as String
+        val userId = intent.getStringExtra("userId")
+        Log.d("fulladddd",UserSession.username.toString())
+        val username = UserSession.username.toString()
+
+
+        binding.ostaliOglasiKorsinika.setText(username);
+
+        binding.allAds.setOnClickListener()
+        {
+
+        }
+        Log.d("userId",userId.toString())
+        fetchAdsByUserId(userId.toString())
 
         if (adId != null) {
             fetchAdDetails(adId) // Fetch and display ad details
@@ -38,6 +59,11 @@ class FullAdActivity : AppCompatActivity() {
             Toast.makeText(this, "Ad not found", Toast.LENGTH_SHORT).show()
             finish() // Close activity if adId is missing
         }
+
+        recyclerView = binding.recyclerViewwUserAads
+        recyclerView.setHasFixedSize(true)
+        val gridLayoutManager = GridLayoutManager(this, 2) // 2 columns
+        recyclerView.layoutManager = gridLayoutManager
     }
 
     private fun fetchAdDetails(adId: String) {
@@ -110,4 +136,27 @@ class FullAdActivity : AppCompatActivity() {
     private fun searchForAds(query: String) {
         // Implement search logic here
     }
+
+    fun fetchAdsByUserId(userId: String) {
+        val firestore = FirebaseFirestore.getInstance()
+
+        firestore.collection("ads")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { documents ->
+                val adList = mutableListOf<ClassifiedAd>()
+                for (document in documents) {
+                    val ad = document.toObject(ClassifiedAd::class.java)
+                    adList.add(ad)
+                }
+                Log.d("uvatio",adList.toString())
+                val list =  adList.take(4).toMutableList()
+                val adapter = AdsAdapter(list)
+                recyclerView.adapter = adapter
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(recyclerView.context, "Error fetching ads: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 }
