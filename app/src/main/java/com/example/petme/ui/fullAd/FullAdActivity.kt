@@ -22,6 +22,8 @@ import com.example.petme.adapters.ImagePagerAdapter
 import com.example.petme.databinding.ActivityFullAdBinding
 import com.example.petme.models.ClassifiedAd
 import com.example.petme.session.UserSession
+import com.example.petme.ui.ads.MyAdsActivity
+import com.example.petme.ui.ads.adslist.AdsListActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -48,6 +50,11 @@ class FullAdActivity : AppCompatActivity() {
 
         binding.allAds.setOnClickListener()
         {
+            val intent = Intent(this, AdsListActivity::class.java).apply {
+                putExtra("userId", userId)
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP // Add the FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
 
         }
         Log.d("userId",userId.toString())

@@ -2,7 +2,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,8 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/category_options"
-            android:hint="Select Category"
-            android:background="@drawable/rounded_addad_background"
+            android:hint="Odaberi Kategoriju"
             />
 
         <!-- Region Dropdown -->
@@ -30,8 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/croatian_regions"
-            android:hint="Select Region"
-            android:background="@drawable/rounded_addad_background"
+            android:hint="Odaberi Županiju"
             />
 
         <!-- Type of Ad Dropdown -->
@@ -42,76 +40,95 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/typeOfAd"
-            android:hint="Type of Ad"
-            android:background="@drawable/rounded_addad_background"
+            android:hint="Tip Oglasa"
+
             />
 
         <Spinner
             android:layout_marginTop="10dp"
-
             android:id="@+id/bloodTypeSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/bloodType"
-            android:hint="Blood type"
-            android:background="@drawable/rounded_addad_background"
+            android:hint="Tip životinje"
             />
 
         <!-- Breed Input -->
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            >
+
+            <EditText
+                android:id="@+id/etMinPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Min Inznos"
+                android:inputType="numberDecimal"
+                android:background="@drawable/rounded_addad_background"
+                android:gravity="center"
+                android:layout_marginRight="2dp"/>
+
+            <EditText
+                android:id="@+id/etMaxPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Max Iznos"
+                android:inputType="numberDecimal"
+                android:background="@drawable/rounded_addad_background"
+                android:gravity="center"
+                android:layout_marginLeft="2dp"/>
+
+        </LinearLayout>
 
         <!-- Minimum Price Input -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        >
+
+
         <EditText
-            android:layout_marginTop="10dp"
-
-            android:id="@+id/etMinPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Min Price"
-            android:inputType="numberDecimal"
-            android:background="@drawable/rounded_addad_background"
-            />
-
-        <!-- Maximum Price Input -->
-        <EditText
-            android:layout_marginTop="10dp"
-
-            android:id="@+id/etMaxPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Max Price"
-            android:inputType="numberDecimal"
-            android:background="@drawable/rounded_addad_background"
-            />
-
-        <!-- Minimum Age Input -->
-        <EditText
-            android:layout_marginTop="10dp"
-
+            android:layout_weight="1"
             android:id="@+id/etMinAge"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Min Age"
+            android:hint="Min Godina"
             android:inputType="number"
             android:background="@drawable/rounded_addad_background"
+            android:layout_marginRight="2dp"
             />
 
         <!-- Maximum Age Input -->
         <EditText
+
+            android:layout_weight="1"
             android:id="@+id/etMaxAge"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Max Age"
+            android:hint="Max Godina"
             android:inputType="number"
-            android:layout_marginTop="10dp"
             android:background="@drawable/rounded_addad_background"
+            android:layout_marginLeft="2dp"
             />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="end"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="10dp">
 
 
 
@@ -119,8 +136,7 @@
             android:id="@+id/btnApply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apply"
-            android:layout_margin="4dp"
+            android:text="PRIMJERNI"
             />
     </LinearLayout>
         <!-- Apply and Cancel Buttons -->
@@ -137,8 +153,7 @@
                 android:id="@+id/btnCancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cancel"
-                android:layout_margin="4dp"
+                android:text="IZAĐI"
                 />
 
         </LinearLayout>
@@ -152,8 +167,7 @@
             android:id="@+id/btnRemoveFilters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reset"
-            android:layout_margin="4dp"
+            android:text="RESETIRAJ"
             />
     </LinearLayout>
     </LinearLayout>

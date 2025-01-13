@@ -94,12 +94,12 @@ class HomeFragment : Fragment() {
                 hiddenCategory1.visibility = View.VISIBLE
                 hiddenCategory2.visibility = View.VISIBLE
                 hiddenCategory3.visibility = View.VISIBLE
-                showAllCategoriesText.text = "Hide all categories"
+                showAllCategoriesText.text = "Sakrij  kategorije"
             } else {
                 hiddenCategory1.visibility = View.GONE
                 hiddenCategory2.visibility = View.GONE
                 hiddenCategory3.visibility = View.GONE
-                showAllCategoriesText.text = "Show more categories"
+                showAllCategoriesText.text = "Prikaži više kategorija"
             }
 
         }
@@ -108,12 +108,12 @@ class HomeFragment : Fragment() {
                 hiddenCategory1.visibility = View.VISIBLE
                 hiddenCategory2.visibility = View.VISIBLE
                 hiddenCategory3.visibility = View.VISIBLE
-                showAllCategoriesText.text = "Hide categories"
+                showAllCategoriesText.text = "Sakrij kategorije"
             } else {
                 hiddenCategory1.visibility = View.GONE
                 hiddenCategory2.visibility = View.GONE
                 hiddenCategory3.visibility = View.GONE
-                showAllCategoriesText.text = "Show more categories"
+                showAllCategoriesText.text = "Prikaži više kategorija"
             }
         }
         return root

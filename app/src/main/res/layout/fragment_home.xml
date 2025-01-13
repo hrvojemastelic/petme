@@ -61,7 +61,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dogs"
+                    android:text="Psi"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:gravity="center"
@@ -92,7 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Horses"
+                    android:text="Konji"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -123,7 +123,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Reptiles"
+                    android:text="Gmazovi"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="14sp"
@@ -153,7 +153,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cats"
+                    android:text="Mačke"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -184,7 +184,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fish"
+                    android:text="Ribe"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -215,7 +215,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Birds"
+                    android:text="Ptice"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -248,7 +248,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="Farm An." />
+                    android:text="Stoka" />
             </LinearLayout>
 
             <LinearLayout
@@ -276,7 +276,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="Rodents" />
+                    android:text="Glodavci" />
             </LinearLayout>
 
             <LinearLayout
@@ -304,7 +304,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="Others" />
+                    android:text="Ostalo" />
             </LinearLayout>
         </androidx.gridlayout.widget.GridLayout>
         <LinearLayout
@@ -322,7 +322,7 @@
                 android:id="@+id/showAllCategoriesText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Show more categories"
+                android:text="Prikaži više kategorija"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:padding="0dp"
@@ -343,7 +343,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="All Categories"
+                android:text="Svi Oglasi"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
@@ -354,8 +354,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recommended Ads"
+            android:text="Preporučeni Oglasi"
             android:textSize="18sp"
+            android:textColor="?attr/textFillColor"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:textStyle="bold" />
@@ -372,7 +373,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Live stock"
+            android:textColor="?attr/textFillColor"
+            android:text="Blago/Stoka"
             android:textSize="18sp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"

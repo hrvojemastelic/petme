@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Petme</string>
+    <string name="app_name">PawPal</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -7,14 +7,14 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="sort_options">
-        <item>Price: Low to High</item>
-        <item>Price: High to Low</item>
-        <item>Date: Newest First</item>
-        <item>Date: Oldest First</item>
+        <item>Cijena: Niža > Viša</item>
+        <item>Cijena: Viša > Niža</item>
+        <item>Datum: Novije Prvo</item>
+        <item>Datum: Starije Prvo</item>
     </string-array>
 
     <string-array name="typeOfAd">
-        <item>Select type of ad</item>
+        <item>Odaberi tip oglasa</item>
         <item>Iznajmljujem</item>
         <item>Prodaja</item>
         <item>Parenje</item>
@@ -22,23 +22,23 @@
     </string-array>
 
     <string-array name="category_options">
-        <item>Select Category</item>
-        <item>Dogs</item>
-        <item>Cats</item>
-        <item>Horses</item>
-        <item>Rodents</item>
-        <item>Fish</item>
-        <item>Live stock</item>
-        <item>Birds</item>
-        <item>Reptiles</item>
-        <item>Others</item>
+        <item>Odaberi Katergoriju</item>
+        <item>Psi</item>
+        <item>Mačke</item>
+        <item>Konji</item>
+        <item>Glodavci</item>
+        <item>Ribe</item>
+        <item>Blago/Stoka</item>
+        <item>Ptice</item>
+        <item>Gmazovi</item>
+        <item>Ostalo</item>
     </string-array>
 
     <string-array name="croatian_regions">
-        <item>Select Region</item>
+        <item>Odaberi Županiju</item>
         <item>Zagreb</item>
-        <item>Split-Dalmatia</item>
-        <item>Istria</item>
+        <item>Split-Dalmacija</item>
+        <item>Istra</item>
         <item>Primorje-Gorski Kotar</item>
         <item>Dubrovnik-Neretva</item>
         <item>Zadar</item>
@@ -55,11 +55,11 @@
         <item>Požega-Slavonia</item>
         <item>Virovitica-Podravina</item>
         <item>Krapina-Zagorje</item>
-        <item>Zagreb County</item>
+        <item>Zagreb Okrug</item>
     </string-array>
 
     <string-array name="bloodType">
-        <item>Select blood</item>
+        <item>Odaberi Tip</item>
         <item>Čistokrvni</item>
         <item>Mješanac</item>
     </string-array>

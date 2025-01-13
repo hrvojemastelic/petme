@@ -14,6 +14,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.petme.R
+import com.example.petme.adapters.AdsAdapter
 import com.example.petme.databinding.ActivityAdsListBinding
 import com.example.petme.models.ClassifiedAd
 import com.example.petme.adapters.AdsSingleColAdapter
@@ -54,7 +55,7 @@ class AdsListActivity : AppCompatActivity() {
         setupActionBar()
         // Get category passed through intent
         category = intent.getStringExtra(EXTRA_CATEGORY) ?: "All"
-
+        val userId  = intent.getStringExtra("userId")
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         firestore = FirebaseFirestore.getInstance()
 
@@ -102,7 +103,14 @@ class AdsListActivity : AppCompatActivity() {
         binding.recyclerViewAds.adapter = adsAdapter
 
         // Fetch Ads from Firestore
-        fetchAdsFromFirestore()
+        if (userId.toString().trim().isEmpty() || userId == null)
+        {
+            fetchAdsFromFirestore()
+        }
+        else
+        {
+            fetchAdsByUserId(userId)
+        }
     }
 
     private fun setupActionBar() {
@@ -284,5 +292,25 @@ class AdsListActivity : AppCompatActivity() {
 
     private fun searchForAds(query: String) {
         // Implement search logic here
+    }
+
+    fun fetchAdsByUserId(userId: String) {
+        val firestore = FirebaseFirestore.getInstance()
+
+        firestore.collection("ads")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { documents ->
+                val adList = mutableListOf<ClassifiedAd>()
+                for (document in documents) {
+                    val ad = document.toObject(ClassifiedAd::class.java)
+                    adList.add(ad)
+                }
+                Log.d("uvatio",adList.toString())
+                val list =  adList
+                adsAdapter.updateAds(list)            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "Error fetching ads: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

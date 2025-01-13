@@ -26,11 +26,10 @@ class AdsAdapter(private var adsList: MutableList<ClassifiedAd>) : RecyclerView.
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
-            val intent = Intent(context, FullAdActivity::class.java)
-            Log.d("uvatio",ad.toString())
-            intent.putExtra("adId", ad.id) // Pass the adId as a String
-            intent.putExtra("userId", ad.userId) // Pass the adId as a String
-
+            val intent = Intent(context, FullAdActivity::class.java).apply {
+                putExtra("adId", ad.id) // Pass the adId as a String
+                putExtra("userId", ad.userId) // Pass the adId as a String
+            }
             context.startActivity(intent)
         }
 
