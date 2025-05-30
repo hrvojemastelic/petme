@@ -28,7 +28,8 @@
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="@color/white"/>
+            android:textColor="?attr/textFillColor"
+            />
 
         <TextView
             android:id="@+id/adDescription"
@@ -37,14 +38,15 @@
             android:textSize="20sp"
             android:maxLines="2"
             android:ellipsize="end"
-            android:textColor="@color/white"/>
+            android:textColor="?attr/textFillColor" />
 
         <TextView
             android:id="@+id/adPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="22sp"
-            android:textColor="@color/white"/>
+            android:textColor="?attr/textFillColor"
+            />
     </LinearLayout>
 
     <ImageButton

@@ -21,6 +21,7 @@ import com.example.petme.MainActivity
 import com.example.petme.R
 import com.example.petme.databinding.FragmentHomeBinding
 import com.example.petme.adapters.AdsAdapter
+import com.example.petme.adapters.AdsHorizontalAdapter
 import com.example.petme.models.ClassifiedAd
 import com.example.petme.ui.ads.adslist.AdsListActivity
 import com.google.android.material.tabs.TabLayoutMediator
@@ -35,11 +36,13 @@ class HomeFragment : Fragment() {
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
     private lateinit var firestore: FirebaseFirestore
-    private var dogsList = mutableListOf<ClassifiedAd>()
-    private var liveStockList = mutableListOf<ClassifiedAd>()
+    private var adsList = mutableListOf<ClassifiedAd>()
 
     private lateinit var recyclerView : RecyclerView
     private lateinit var recyclerViewLiveStock : RecyclerView
+    private lateinit var recyclerViewHorse : RecyclerView
+    private lateinit var recyclerViewRecommended : RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,14 +70,29 @@ class HomeFragment : Fragment() {
         // Set up RecyclerView for Recommended Listings with GridLayoutManager (2 columns)
         recyclerView = binding.recyclerViewListings
         recyclerViewLiveStock = binding.liveStockAds
+        recyclerViewHorse = binding.recyclerviewKonji
+        recyclerViewRecommended = binding.recyclerviewPreporuceni
+
         recyclerView.setHasFixedSize(true)
         recyclerViewLiveStock.setHasFixedSize(true)
+        recyclerViewHorse.setHasFixedSize(true)
+        recyclerViewRecommended.setHasFixedSize(true)
+
         val lineraLayout = LinearLayoutManager(requireContext())
         lineraLayout.orientation = LinearLayoutManager.HORIZONTAL
+
+        val lineraLayoutHorse = LinearLayoutManager(requireContext())
+        lineraLayoutHorse.orientation = LinearLayoutManager.HORIZONTAL
+
+        val lineraLayoutRecommended = LinearLayoutManager(requireContext())
+        lineraLayoutRecommended.orientation = LinearLayoutManager.HORIZONTAL
+
         val gridLayoutManager = GridLayoutManager(requireContext(), 2) // 2 columns
+
         recyclerView.layoutManager = gridLayoutManager
         recyclerViewLiveStock.layoutManager = lineraLayout
-
+        recyclerViewHorse.layoutManager = lineraLayoutHorse
+        recyclerViewRecommended.layoutManager = lineraLayoutRecommended
        /* homeViewModel.recommendedAds.observe(viewLifecycleOwner) { ads ->
             // Show only the first 4 ads
             val limitedAds = ads.take(4).toMutableList()  // Convert to MutableList
@@ -87,7 +105,7 @@ class HomeFragment : Fragment() {
         val showAllCategoriesText = binding.showAllCategoriesText
         val hiddenCategory1 = binding.livestock
         val hiddenCategory2 = binding.rodents
-        val hiddenCategory3 = binding.others
+        val hiddenCategory3 = binding.lostandfound
 
         showAllC.setOnClickListener{
             if (hiddenCategory1.visibility == View.GONE) {
@@ -127,15 +145,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpCategoryIcons() {
-        binding.dogs.setOnClickListener { openAdsListFragment("dogs") }
-        binding.horses.setOnClickListener { openAdsListFragment("cats") }
-        binding.reptails.setOnClickListener { openAdsListFragment("horses") }
-        binding.cats.setOnClickListener { openAdsListFragment("reptiles") }
-        binding.fish.setOnClickListener { openAdsListFragment("fish") }
-        binding.birds.setOnClickListener { openAdsListFragment("birds") }
-        binding.livestock.setOnClickListener { openAdsListFragment("live stock") }
-        binding.rodents.setOnClickListener { openAdsListFragment("rodents") }
-        binding.others.setOnClickListener { openAdsListFragment("others") }
+        binding.dogs.setOnClickListener { openAdsListFragment("psi") }
+        binding.horses.setOnClickListener { openAdsListFragment("mačke") }
+        binding.reptails.setOnClickListener { openAdsListFragment("konji") }
+        binding.cats.setOnClickListener { openAdsListFragment("reptili") }
+        binding.fish.setOnClickListener { openAdsListFragment("riba") }
+        binding.birds.setOnClickListener { openAdsListFragment("ptice") }
+        binding.livestock.setOnClickListener { openAdsListFragment("stoka") }
+        binding.rodents.setOnClickListener { openAdsListFragment("glodavci") }
+        binding.lostandfound.setOnClickListener { openAdsListFragment("izgubljeno/nađeno") }
 
         binding.allCategories.setOnClickListener({openAdsListFragment("")})
     }
@@ -169,30 +187,37 @@ class HomeFragment : Fragment() {
         adsCollection
             .get()
             .addOnSuccessListener { result ->
-                dogsList.clear()
-                liveStockList.clear()
+                adsList.clear()
 
                 for (document in result) {
                     Log.d("rezultat",document.toString())
 
                     val ad = document.toObject(ClassifiedAd::class.java)
-                    dogsList.add(ad)
-                    liveStockList.add(ad)
+                    adsList.add(ad)
                 }
-                Log.d("adslist", dogsList.toString())
+                Log.d("adslist", adsList.toString())
 
                 // Filter ads based on the selected category
-                val filteredAdsDogs = dogsList.filter { it.category.equals("dogs", ignoreCase = true) }
-                val filterAdsLiveStock  = liveStockList.filter { it.category.equals("live stock", ignoreCase = true) }
+                val filteredAdsLostFound = adsList.filter { it.category.equals("Izgubljeno/Nađeno", ignoreCase = true) }
+                val filterAdsLiveStock  = adsList.filter { it.category.equals("Blago/Stoka", ignoreCase = true) }
+                val filterAdsHorse  = adsList.filter { it.category.equals("Konji", ignoreCase = true) }
+                val filterRecommended = adsList.filter { it.category.equals("Blago/Stoka", ignoreCase = true) }
 
-                val limitedAds = filteredAdsDogs.take(4).toMutableList()  // Convert to MutableList
-                val adapter = AdsAdapter(limitedAds)
-                recyclerView.adapter = adapter
+                val limiteLostFound = filteredAdsLostFound.take(4).toMutableList()  // Convert to MutableList
+                val adapterLF = AdsAdapter(limiteLostFound)
+                recyclerView.adapter = adapterLF
 
                 val limitedAdsLiveStock = filterAdsLiveStock.take(8).toMutableList() // Convert to MutableList
-                System.out.println("livestock" + liveStockList.toString())
-                val adapterLiveStock = AdsAdapter(limitedAdsLiveStock)
+                val adapterLiveStock = AdsHorizontalAdapter(limitedAdsLiveStock)
                 recyclerViewLiveStock.adapter = adapterLiveStock
+
+                val limitedHorses = filterAdsHorse.take(8).toMutableList() // Convert to MutableList
+                val adapterHorses = AdsHorizontalAdapter(limitedHorses)
+                recyclerViewHorse.adapter = adapterHorses
+
+                val limitedRecommended = filterRecommended.take(8).toMutableList()  // Convert to MutableList
+                val adapterRecommended = AdsHorizontalAdapter(limitedRecommended)
+                recyclerViewRecommended.adapter = adapterRecommended
             }
             .addOnFailureListener { exception ->
                 System.out.println("exception on dogs list in home fragment" + exception.message.toString())

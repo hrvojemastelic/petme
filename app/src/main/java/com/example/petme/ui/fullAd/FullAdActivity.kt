@@ -16,6 +16,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.example.petme.BaseActivity
 import com.example.petme.R
 import com.example.petme.adapters.AdsAdapter
 import com.example.petme.adapters.ImagePagerAdapter
@@ -28,25 +29,21 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class FullAdActivity : AppCompatActivity() {
+class FullAdActivity : BaseActivity() {
 
     private lateinit var binding: ActivityFullAdBinding
     private val firestore = FirebaseFirestore.getInstance()
     private lateinit var recyclerView : RecyclerView
-
+    private var _username:String = "";
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFullAdBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupActionBar()
         val adId = intent.getStringExtra("adId") // Get adId as String
         val userId = intent.getStringExtra("userId")
-        Log.d("fulladddd",UserSession.username.toString())
-        val username = UserSession.username.toString()
 
-
-        binding.ostaliOglasiKorsinika.setText(username);
+        fetchUsernameByUserId(userId.toString())
 
         binding.allAds.setOnClickListener()
         {
@@ -115,34 +112,6 @@ class FullAdActivity : AppCompatActivity() {
         viewPager.adapter = ImagePagerAdapter(this, ad.imageUrls)
     }
 
-    private fun setupImageSlider(imageUrls: List<String>) {
-        // Setup image slider here, or use a library for viewing images fullscreen on click
-    }
-
-    private fun setupActionBar() {
-        val actionBar = supportActionBar
-        actionBar?.setDisplayShowCustomEnabled(true)
-        actionBar?.setDisplayShowTitleEnabled(false)
-
-        val customView = layoutInflater.inflate(R.layout.custom_action_bar, null)
-        actionBar?.customView = customView
-
-        val searchView = customView.findViewById<SearchView>(R.id.searchView)
-        searchView.setIconifiedByDefault(false)
-        searchView.clearFocus()
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { searchForAds(it) }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?) = true
-        })
-    }
-    private fun searchForAds(query: String) {
-        // Implement search logic here
-    }
 
     fun fetchAdsByUserId(userId: String) {
         val firestore = FirebaseFirestore.getInstance()
@@ -166,4 +135,28 @@ class FullAdActivity : AppCompatActivity() {
             }
     }
 
+    fun fetchUsernameByUserId(userId: String): String {
+        firestore.collection("users").document(userId).get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    _username = document.getString("username").toString()
+                    binding.ostaliOglasiKorsinika.setText(_username);
+
+                    Log.d("FullAd",_username)
+                } else {
+                    _username = "" // Handle no user found
+                    binding.ostaliOglasiKorsinika.setText("unknown");
+
+                    Log.d("FullAd",_username)
+
+                }
+            }
+            .addOnFailureListener { exception ->
+                _username = "null" // Handle failure
+                Log.d("FullAd",_username)
+
+                exception.printStackTrace()
+            }
+        return _username;
+    }
 }

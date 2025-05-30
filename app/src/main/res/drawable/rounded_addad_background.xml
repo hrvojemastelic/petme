@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/dark_gray"/> <!-- Light grey background -->
+    <solid android:color="?attr/backgroundTintMode"/> <!-- Light grey background -->
     <corners android:radius="12dp"/> <!-- Rounded corners -->
-    <padding android:left="8dp" android:right="8dp" android:top="8dp" android:bottom="8dp"/>
+    <padding android:left="0dp" android:right="0dp" android:top="0dp" android:bottom="0dp"/>
 </shape>

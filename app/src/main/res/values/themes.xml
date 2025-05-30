@@ -12,7 +12,8 @@
         <item name="android:statusBarColor">@color/redish</item>
         <item name="actionBarSize">110dp</item>
         <item name="textFillColor">@color/primary_text_night</item>
-
+        <item name="android:windowBackgroundFallback">@color/light_gray</item>
+        <item name="backgroundTintMode">@color/white</item>
         <!-- Customize your theme here. -->
 
     </style>

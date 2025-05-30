@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment"
+    android:background="?android:windowBackgroundFallback"
     android:scrollbars="none">
 
     <LinearLayout
@@ -62,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Psi"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/textFillColor"
                     android:textSize="14sp"
                     android:gravity="center"
                     android:textStyle="bold"
@@ -93,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Konji"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/textFillColor"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -124,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Gmazovi"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/textFillColor"
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:gravity="center"
@@ -154,7 +155,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mačke"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/textFillColor"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -185,7 +186,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ribe"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/textFillColor"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -216,7 +217,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ptice"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/textFillColor"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -248,6 +249,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
+                    android:textColor="?attr/textFillColor"
                     android:text="Stoka" />
             </LinearLayout>
 
@@ -275,12 +277,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="?attr/textFillColor"
                     android:textStyle="bold"
                     android:text="Glodavci" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/others"
+                android:id="@+id/lostandfound"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -303,8 +306,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="?attr/textFillColor"
                     android:textStyle="bold"
-                    android:text="Ostalo" />
+                    android:text="Izgub./Nađeno" />
             </LinearLayout>
         </androidx.gridlayout.widget.GridLayout>
         <LinearLayout
@@ -323,7 +327,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Prikaži više kategorija"
-                android:textColor="@color/white"
+                android:textColor="?attr/textFillColor"
                 android:textStyle="bold"
                 android:padding="0dp"
                 android:clickable="true"
@@ -346,7 +350,7 @@
                 android:text="Svi Oglasi"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="?attr/textFillColor"
                 android:gravity="center"
                 android:layout_marginTop="8dp" />
         </LinearLayout>
@@ -354,16 +358,33 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Preporučeni Oglasi"
+            android:text="Izgubljeno/Nađeno"
             android:textSize="18sp"
             android:textColor="?attr/textFillColor"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:textStyle="bold" />
 
-        <!-- Recommended Ads (RecyclerView with fixed height) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewListings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/textFillColor"
+            android:text="Preporučeni Oglasi"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewPreporuceni"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -389,5 +410,26 @@
             android:nestedScrollingEnabled="false"
             android:layout_marginBottom="10dp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/textFillColor"
+            android:text="Konji"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold" />
+
+        <!-- Recommended Ads (RecyclerView with fixed height) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewKonji"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginBottom="10dp"/>
+
+
     </LinearLayout>
+
 </ScrollView>
