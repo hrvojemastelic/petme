@@ -31,10 +31,10 @@ class AdsListActivity : AppCompatActivity() {
     }
 
     // Variables to store filter selections
-    private var selectedCategory: String = "Select Category"
-    private var selectedRegion: String = "Select Region"
-    private var selectedTypeOfAd: String = "Select type of ad"
-    private var selectedBloodType: String = "Select blood"
+    private var selectedCategory: String = "Odaberi Kategoriju"
+    private var selectedRegion: String = "Odaberi Županiju"
+    private var selectedTypeOfAd: String = "Odaberi tip oglasa"
+    private var selectedBloodType: String = "Odaberi tip"
     private var minPriceInput: Double? = null
     private var maxPriceInput: Double? = null
     private var minAgeInput: Int? = null
@@ -204,10 +204,10 @@ class AdsListActivity : AppCompatActivity() {
 
         // Apply filters and hide dialog
         dialogView.findViewById<Button>(R.id.btnApply).setOnClickListener {
-            selectedCategory = categorySpinner.selectedItem?.toString() ?: "Select Category"
-            selectedRegion = regionSpinner.selectedItem?.toString() ?: "Select Region"
-            selectedTypeOfAd = typeOfAdSpinner.selectedItem?.toString() ?: "Select type of ad"
-            selectedBloodType = bloodTypeSpinner.selectedItem?.toString() ?: "Select blood" // Optional
+            selectedCategory = categorySpinner.selectedItem?.toString() ?: "Odaberi Katergoriju"
+            selectedRegion = regionSpinner.selectedItem?.toString() ?: "Odaberi Županiju"
+            selectedTypeOfAd = typeOfAdSpinner.selectedItem?.toString() ?: "Odaberi tip oglasa"
+            selectedBloodType = bloodTypeSpinner.selectedItem?.toString() ?: "Odaberi tip" // Optional
 
             minPriceInput = etMinPrice.text.toString().trim().toDoubleOrNull()
             maxPriceInput = etMaxPrice.text.toString().trim().toDoubleOrNull()
@@ -215,10 +215,10 @@ class AdsListActivity : AppCompatActivity() {
             maxAgeInput = etMaxAge.text.toString().trim().toIntOrNull()
 
             applyFilters(
-                category = selectedCategory ?: "Select Category", // Default to "Select Category" if null
-                region = selectedRegion ?: "Select Region",       // Default to "Select Region" if null
-                typeOfAd = selectedTypeOfAd ?: "Select type of ad", // Default to "Select type of ad" if null
-                bloodType = selectedBloodType ?: "Select blood",    // Default to "Select blood" if null
+                category = selectedCategory ?: "Odaberi Kategoriju", // Default to "Select Category" if null
+                region = selectedRegion ?: "Odaberi Županiju",       // Default to "Select Region" if null
+                typeOfAd = selectedTypeOfAd ?: "Odaberi tip oglasa", // Default to "Select type of ad" if null
+                bloodType = selectedBloodType ?: "Odaberi tip",    // Default to "Select blood" if null
                 minPrice = minPriceInput,
                 maxPrice = maxPriceInput,
                 minAge = minAgeInput,
@@ -231,10 +231,10 @@ class AdsListActivity : AppCompatActivity() {
 
         // Remove all filters and reset the list
         dialogView.findViewById<Button>(R.id.btnRemoveFilters).setOnClickListener {
-            selectedCategory = "Select Category"
-            selectedRegion = "Select Region"
-            selectedTypeOfAd = "Select type of ad"
-            selectedBloodType = "Select blood"
+            selectedCategory = "Odaberi Kategoriju"
+            selectedRegion = "Odaberi Županiju"
+            selectedTypeOfAd = "Odaberi tip oglasa"
+            selectedBloodType = "Odaberi tip"
             minPriceInput = null
             maxPriceInput = null
             minAgeInput = null
@@ -255,27 +255,69 @@ class AdsListActivity : AppCompatActivity() {
         region: String,
         typeOfAd: String,
         bloodType: String,
-        minPrice: Double?, // These remain as Double for price range
+        minPrice: Double?,
         maxPrice: Double?,
-        minAge: Int?,      // These remain as Int for age range
+        minAge: Int?,
         maxAge: Int?
     ) {
-        val filteredAds = adsList.filter { ad ->
-            val matchesCategory = category == "Select Category" || ad.category == category
-            val matchesRegion = region == "Select Region" || ad.region == region
-            val matchesTypeOfAd = typeOfAd == "Select type of ad" || ad.typeOfAd == typeOfAd
-            val matchesBloodType = bloodType == "Select blood" || ad.bloodType == bloodType
-            val matchesMinPrice = minPrice == null || ad.price >= minPrice
-            val matchesMaxPrice = maxPrice == null || ad.price <= maxPrice
-            val matchesMinAge = minAge == null || ad.age >= minAge
-            val matchesMaxAge = maxAge == null || ad.age <= maxAge
+        val trimmedCategory = category.trim()
+        val trimmedRegion = region.trim()
+        val trimmedTypeOfAd = typeOfAd.trim()
+        val trimmedBloodType = bloodType.trim()
 
-            // Combine all the conditions
-            matchesCategory && matchesRegion && matchesTypeOfAd &&
-                    matchesBloodType  &&
-                    matchesMinPrice && matchesMaxPrice &&
-                    matchesMinAge && matchesMaxAge
+        // Determine which filters are active (non-empty and not default)
+        val isCategoryActive = trimmedCategory.isNotEmpty() && trimmedCategory != "Odaberi Kategoriju"
+        val isRegionActive = trimmedRegion.isNotEmpty() && trimmedRegion != "Odaberi Županiju"
+        val isTypeOfAdActive = trimmedTypeOfAd.isNotEmpty() && trimmedTypeOfAd != "Odaberi tip oglasa"
+        val isBloodTypeActive = trimmedBloodType.isNotEmpty() && trimmedBloodType != "Odaberi tip"
+        val isMinPriceActive = minPrice != null
+        val isMaxPriceActive = maxPrice != null
+        val isMinAgeActive = minAge != null
+        val isMaxAgeActive = maxAge != null
+
+        // If no filters are active at all, just return all ads
+        if (!(isCategoryActive || isRegionActive || isTypeOfAdActive || isBloodTypeActive ||
+                    isMinPriceActive || isMaxPriceActive || isMinAgeActive || isMaxAgeActive)) {
+            // no filtering needed
+            // use all ads
+            // example: updateAdapter(adsList)
+            return
         }
+
+        val filteredAds = adsList.filter { ad ->
+
+            val matchCategory = !isCategoryActive || ad.category.trim().equals(trimmedCategory, ignoreCase = true)
+            val matchRegion = !isRegionActive || ad.region.trim().equals(trimmedRegion, ignoreCase = true)
+            val matchTypeOfAd = !isTypeOfAdActive || ad.typeOfAd.trim().equals(trimmedTypeOfAd, ignoreCase = true)
+            val matchBloodType = !isBloodTypeActive || ad.bloodType.trim().equals(trimmedBloodType, ignoreCase = true)
+            val matchMinPrice = !isMinPriceActive || ad.price >= minPrice!!
+            val matchMaxPrice = !isMaxPriceActive || ad.price <= maxPrice!!
+            val matchMinAge = !isMinAgeActive || ad.age >= minAge!!
+            val matchMaxAge = !isMaxAgeActive || ad.age <= maxAge!!
+
+            // Collect only active filters into booleans
+            val matches = mutableListOf<Boolean>()
+
+            if (isCategoryActive) matches.add(matchCategory)
+            if (isRegionActive) matches.add(matchRegion)
+            if (isTypeOfAdActive) matches.add(matchTypeOfAd)
+            if (isBloodTypeActive) matches.add(matchBloodType)
+            if (isMinPriceActive) matches.add(matchMinPrice)
+            if (isMaxPriceActive) matches.add(matchMaxPrice)
+            if (isMinAgeActive) matches.add(matchMinAge)
+            if (isMaxAgeActive) matches.add(matchMaxAge)
+
+            // Return true if ad matches at least one active filter
+            matches.any { it }
+        }
+
+        // Use filteredAds as needed
+        // e.g. updateAdapter(filteredAds)
+
+
+
+    Log.d("FILTER", "Filtered: $filteredAds")
+        Log.d("FILTER", "Original: $adsList")
 
         adsAdapter.updateAds(filteredAds)
 
