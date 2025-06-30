@@ -14,7 +14,7 @@
     </string-array>
 
     <string-array name="typeOfAd">
-        <item>Odaberi tip oglasa</item>
+        <item>Odaberi Tip Oglasa</item>
         <item>Iznajmljujem</item>
         <item>Prodaja</item>
         <item>Parenje</item>
@@ -22,7 +22,7 @@
     </string-array>
 
     <string-array name="category_options">
-        <item>Odaberi Katergoriju</item>
+        <item>Odaberi Kategoriju</item>
         <item>Psi</item>
         <item>Mačke</item>
         <item>Konji</item>

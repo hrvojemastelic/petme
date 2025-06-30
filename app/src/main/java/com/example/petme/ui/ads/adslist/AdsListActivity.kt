@@ -33,8 +33,8 @@ class AdsListActivity : AppCompatActivity() {
     // Variables to store filter selections
     private var selectedCategory: String = "Odaberi Kategoriju"
     private var selectedRegion: String = "Odaberi Županiju"
-    private var selectedTypeOfAd: String = "Odaberi tip oglasa"
-    private var selectedBloodType: String = "Odaberi tip"
+    private var selectedTypeOfAd: String = "Odaberi Tip Oglasa"
+    private var selectedBloodType: String = "Odaberi Tip"
     private var minPriceInput: Double? = null
     private var maxPriceInput: Double? = null
     private var minAgeInput: Int? = null
@@ -204,10 +204,10 @@ class AdsListActivity : AppCompatActivity() {
 
         // Apply filters and hide dialog
         dialogView.findViewById<Button>(R.id.btnApply).setOnClickListener {
-            selectedCategory = categorySpinner.selectedItem?.toString() ?: "Odaberi Katergoriju"
+            selectedCategory = categorySpinner.selectedItem?.toString() ?: "Odaberi Kategoriju"
             selectedRegion = regionSpinner.selectedItem?.toString() ?: "Odaberi Županiju"
-            selectedTypeOfAd = typeOfAdSpinner.selectedItem?.toString() ?: "Odaberi tip oglasa"
-            selectedBloodType = bloodTypeSpinner.selectedItem?.toString() ?: "Odaberi tip" // Optional
+            selectedTypeOfAd = typeOfAdSpinner.selectedItem?.toString() ?: "Odaberi Tip Oglasa"
+            selectedBloodType = bloodTypeSpinner.selectedItem?.toString() ?: "Odaberi Tip" // Optional
 
             minPriceInput = etMinPrice.text.toString().trim().toDoubleOrNull()
             maxPriceInput = etMaxPrice.text.toString().trim().toDoubleOrNull()
@@ -217,8 +217,8 @@ class AdsListActivity : AppCompatActivity() {
             applyFilters(
                 category = selectedCategory ?: "Odaberi Kategoriju", // Default to "Select Category" if null
                 region = selectedRegion ?: "Odaberi Županiju",       // Default to "Select Region" if null
-                typeOfAd = selectedTypeOfAd ?: "Odaberi tip oglasa", // Default to "Select type of ad" if null
-                bloodType = selectedBloodType ?: "Odaberi tip",    // Default to "Select blood" if null
+                typeOfAd = selectedTypeOfAd ?: "Odaberi Tip Oglasa", // Default to "Select type of ad" if null
+                bloodType = selectedBloodType ?: "Odaberi Tip",    // Default to "Select blood" if null
                 minPrice = minPriceInput,
                 maxPrice = maxPriceInput,
                 minAge = minAgeInput,
@@ -233,8 +233,8 @@ class AdsListActivity : AppCompatActivity() {
         dialogView.findViewById<Button>(R.id.btnRemoveFilters).setOnClickListener {
             selectedCategory = "Odaberi Kategoriju"
             selectedRegion = "Odaberi Županiju"
-            selectedTypeOfAd = "Odaberi tip oglasa"
-            selectedBloodType = "Odaberi tip"
+            selectedTypeOfAd = "Odaberi Tip Oglasa"
+            selectedBloodType = "Odaberi Tip"
             minPriceInput = null
             maxPriceInput = null
             minAgeInput = null
@@ -260,64 +260,60 @@ class AdsListActivity : AppCompatActivity() {
         minAge: Int?,
         maxAge: Int?
     ) {
+        Log.d("FILTER_DEBUG", "Filters selected - category='$category', region='$region', type='$typeOfAd', blood='$bloodType'")
+
         val trimmedCategory = category.trim()
         val trimmedRegion = region.trim()
         val trimmedTypeOfAd = typeOfAd.trim()
         val trimmedBloodType = bloodType.trim()
 
-        // Determine which filters are active (non-empty and not default)
+        // Only consider filters active if user selected something other than the default value
         val isCategoryActive = trimmedCategory.isNotEmpty() && trimmedCategory != "Odaberi Kategoriju"
         val isRegionActive = trimmedRegion.isNotEmpty() && trimmedRegion != "Odaberi Županiju"
-        val isTypeOfAdActive = trimmedTypeOfAd.isNotEmpty() && trimmedTypeOfAd != "Odaberi tip oglasa"
-        val isBloodTypeActive = trimmedBloodType.isNotEmpty() && trimmedBloodType != "Odaberi tip"
+        val isTypeOfAdActive = trimmedTypeOfAd.isNotEmpty() && trimmedTypeOfAd != "Odaberi Tip Oglasa"
+        val isBloodTypeActive = trimmedBloodType.isNotEmpty() && trimmedBloodType != "Odaberi Tip"
         val isMinPriceActive = minPrice != null
         val isMaxPriceActive = maxPrice != null
         val isMinAgeActive = minAge != null
         val isMaxAgeActive = maxAge != null
 
-        // If no filters are active at all, just return all ads
-        if (!(isCategoryActive || isRegionActive || isTypeOfAdActive || isBloodTypeActive ||
-                    isMinPriceActive || isMaxPriceActive || isMinAgeActive || isMaxAgeActive)) {
-            // no filtering needed
-            // use all ads
-            // example: updateAdapter(adsList)
-            return
-        }
-
         val filteredAds = adsList.filter { ad ->
+            val conditions = mutableListOf<Boolean>()
 
-            val matchCategory = !isCategoryActive || ad.category.trim().equals(trimmedCategory, ignoreCase = true)
-            val matchRegion = !isRegionActive || ad.region.trim().equals(trimmedRegion, ignoreCase = true)
-            val matchTypeOfAd = !isTypeOfAdActive || ad.typeOfAd.trim().equals(trimmedTypeOfAd, ignoreCase = true)
-            val matchBloodType = !isBloodTypeActive || ad.bloodType.trim().equals(trimmedBloodType, ignoreCase = true)
-            val matchMinPrice = !isMinPriceActive || ad.price >= minPrice!!
-            val matchMaxPrice = !isMaxPriceActive || ad.price <= maxPrice!!
-            val matchMinAge = !isMinAgeActive || ad.age >= minAge!!
-            val matchMaxAge = !isMaxAgeActive || ad.age <= maxAge!!
+            if (isCategoryActive) {
+                conditions.add(ad.category.trim().equals(trimmedCategory, ignoreCase = true))
+            }
+            if (isRegionActive) {
+                conditions.add(ad.region.trim().equals(trimmedRegion, ignoreCase = true))
+            }
+            if (isTypeOfAdActive) {
+                conditions.add(ad.typeOfAd.trim().equals(trimmedTypeOfAd, ignoreCase = true))
+            }
+            if (isBloodTypeActive) {
+                conditions.add(ad.bloodType.trim().equals(trimmedBloodType, ignoreCase = true))
+            }
+            if (isMinPriceActive) {
+                conditions.add(ad.price >= minPrice!!)
+            }
+            if (isMaxPriceActive) {
+                conditions.add(ad.price <= maxPrice!!)
+            }
+            if (isMinAgeActive) {
+                conditions.add(ad.age >= minAge!!)
+            }
+            if (isMaxAgeActive) {
+                conditions.add(ad.age <= maxAge!!)
+            }
 
-            // Collect only active filters into booleans
-            val matches = mutableListOf<Boolean>()
+            val result = if (conditions.isEmpty()) true else conditions.all { it }
 
-            if (isCategoryActive) matches.add(matchCategory)
-            if (isRegionActive) matches.add(matchRegion)
-            if (isTypeOfAdActive) matches.add(matchTypeOfAd)
-            if (isBloodTypeActive) matches.add(matchBloodType)
-            if (isMinPriceActive) matches.add(matchMinPrice)
-            if (isMaxPriceActive) matches.add(matchMaxPrice)
-            if (isMinAgeActive) matches.add(matchMinAge)
-            if (isMaxAgeActive) matches.add(matchMaxAge)
+            Log.d("FILTER_MATCH", "Ad: ${ad.title}, result: $result, conditions: $conditions")
 
-            // Return true if ad matches at least one active filter
-            matches.any { it }
+            result
         }
 
-        // Use filteredAds as needed
-        // e.g. updateAdapter(filteredAds)
 
-
-
-    Log.d("FILTER", "Filtered: $filteredAds")
-        Log.d("FILTER", "Original: $adsList")
+        Log.d("FILTER_RESULT", "Filtered ${filteredAds.size} ads from total ${adsList.size}")
 
         adsAdapter.updateAds(filteredAds)
 
@@ -326,6 +322,8 @@ class AdsListActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun resetFilters() {
         // Clear any applied filters and reload the unfiltered data
         fetchAdsFromFirestore()
@@ -333,9 +331,18 @@ class AdsListActivity : AppCompatActivity() {
     }
 
     private fun searchForAds(query: String) {
-        // Implement search logic here
-    }
+        val filtered = adsList.filter {
+            it.title.contains(query, ignoreCase = true) ||
+                    it.description.contains(query, ignoreCase = true) ||
+                    it.breed.contains(query, ignoreCase = true)
+        }
 
+        adsAdapter.updateAds(filtered)
+
+        if (filtered.isEmpty()) {
+            Toast.makeText(this, "No results found for \"$query\"", Toast.LENGTH_SHORT).show()
+        }
+    }
     fun fetchAdsByUserId(userId: String) {
         val firestore = FirebaseFirestore.getInstance()
 
