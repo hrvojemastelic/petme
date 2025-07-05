@@ -53,27 +53,6 @@ class MainActivity : BaseActivity(){
 
     }
 
-    private fun setupActionBar() {
-        val actionBar = supportActionBar
-        actionBar?.setDisplayShowCustomEnabled(true)
-        actionBar?.setDisplayShowTitleEnabled(false)
-
-        val customView = layoutInflater.inflate(R.layout.custom_action_bar, null)
-        actionBar?.customView = customView
-
-        val searchView = customView.findViewById<SearchView>(R.id.searchView)
-        searchView.setIconifiedByDefault(false)
-        searchView.clearFocus()
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { searchForAds(it) }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?) = true
-        })
-    }
 
     private fun setupNavigation(navView: BottomNavigationView, navController: NavController) {
         val appBarConfiguration = AppBarConfiguration(

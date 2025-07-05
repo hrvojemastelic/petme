@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.petme.Constants.EXTRA_SEARCH_QUERY
 import com.example.petme.R
 import com.example.petme.adapters.AdsAdapter
 import com.example.petme.databinding.ActivityAdsListBinding
@@ -53,6 +54,7 @@ class AdsListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupActionBar()
+
         // Get category passed through intent
         category = intent.getStringExtra(EXTRA_CATEGORY) ?: "All"
         val userId  = intent.getStringExtra("userId")
@@ -111,6 +113,9 @@ class AdsListActivity : AppCompatActivity() {
         {
             fetchAdsByUserId(userId)
         }
+
+
+
     }
 
     private fun setupActionBar() {
@@ -127,13 +132,17 @@ class AdsListActivity : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { searchForAds(it) }
+                searchForAds(query.orEmpty())
                 return true
             }
 
-            override fun onQueryTextChange(newText: String?) = true
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchForAds(newText.orEmpty())
+                return true
+            }
         })
     }
+
     private fun fetchAdsFromFirestore() {
         val adsCollection = firestore.collection("ads")
 
@@ -159,6 +168,12 @@ class AdsListActivity : AppCompatActivity() {
 
                 // Update RecyclerView with filtered ads
                 adsAdapter.updateAds(filteredAds)
+                val query = intent.getStringExtra(EXTRA_SEARCH_QUERY)
+                if (!query.isNullOrBlank()) {
+                    val searchView = supportActionBar?.customView?.findViewById<SearchView>(R.id.searchView)
+                    searchView?.setQuery(query, false) // Optional: show the query in the bar
+                    searchForAds(query)
+                }
             }
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Error fetching ads: ${exception.message}", Toast.LENGTH_SHORT).show()
@@ -331,10 +346,18 @@ class AdsListActivity : AppCompatActivity() {
     }
 
     private fun searchForAds(query: String) {
+        val trimmedQuery = query.trim()
+
+        if (trimmedQuery.isEmpty()) {
+            // If search is empty, show all ads again
+            adsAdapter.updateAds(adsList)
+            return
+        }
+
         val filtered = adsList.filter {
-            it.title.contains(query, ignoreCase = true) ||
-                    it.description.contains(query, ignoreCase = true) ||
-                    it.breed.contains(query, ignoreCase = true)
+            it.title.contains(trimmedQuery, ignoreCase = true) ||
+                    it.description.contains(trimmedQuery, ignoreCase = true) ||
+                    it.breed.contains(trimmedQuery, ignoreCase = true)
         }
 
         adsAdapter.updateAds(filtered)
@@ -343,6 +366,7 @@ class AdsListActivity : AppCompatActivity() {
             Toast.makeText(this, "No results found for \"$query\"", Toast.LENGTH_SHORT).show()
         }
     }
+
     fun fetchAdsByUserId(userId: String) {
         val firestore = FirebaseFirestore.getInstance()
 
@@ -357,7 +381,14 @@ class AdsListActivity : AppCompatActivity() {
                 }
                 Log.d("uvatio",adList.toString())
                 val list =  adList
-                adsAdapter.updateAds(list)            }
+                adsAdapter.updateAds(list)
+                val query = intent.getStringExtra(EXTRA_SEARCH_QUERY)
+                if (!query.isNullOrBlank()) {
+                    val searchView = supportActionBar?.customView?.findViewById<SearchView>(R.id.searchView)
+                    searchView?.setQuery(query, false) // Optional: show the query in the bar
+                    searchForAds(query)
+                }
+            }
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Error fetching ads: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
