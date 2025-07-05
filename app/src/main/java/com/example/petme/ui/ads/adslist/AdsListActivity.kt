@@ -368,24 +368,23 @@ class AdsListActivity : AppCompatActivity() {
     }
 
     fun fetchAdsByUserId(userId: String) {
-        val firestore = FirebaseFirestore.getInstance()
-
         firestore.collection("ads")
             .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener { documents ->
-                val adList = mutableListOf<ClassifiedAd>()
+                adsList.clear()  // clear the class-level list first
                 for (document in documents) {
                     val ad = document.toObject(ClassifiedAd::class.java)
-                    adList.add(ad)
+                    adsList.add(ad)  // add to class-level list
                 }
-                Log.d("uvatio",adList.toString())
-                val list =  adList
-                adsAdapter.updateAds(list)
+                Log.d("uvatio", adsList.toString())
+                adsAdapter.updateAds(adsList) // update adapter with class-level list
+
+                // Now handle search query properly:
                 val query = intent.getStringExtra(EXTRA_SEARCH_QUERY)
                 if (!query.isNullOrBlank()) {
                     val searchView = supportActionBar?.customView?.findViewById<SearchView>(R.id.searchView)
-                    searchView?.setQuery(query, false) // Optional: show the query in the bar
+                    searchView?.setQuery(query, false)
                     searchForAds(query)
                 }
             }
@@ -393,4 +392,5 @@ class AdsListActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error fetching ads: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
 }
