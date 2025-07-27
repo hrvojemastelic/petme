@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.gms.google-services") // Apply the Google Services plugin here
+    id("androidx.navigation.safeargs.kotlin")
+
 }
 
 android {

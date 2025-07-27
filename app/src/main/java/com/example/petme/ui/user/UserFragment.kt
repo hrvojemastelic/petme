@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.petme.databinding.FragmentUserBinding
 import com.example.petme.ui.ads.MyAdsActivity
-import com.example.petme.ui.ads.addad.AddAdActivity
 import com.example.petme.ui.user.auth.AuthViewModel
 import com.example.petme.ui.user.auth.SignUpActivity
 
@@ -107,8 +106,8 @@ class UserFragment : Fragment() {
             startActivity(Intent(requireContext(), SignUpActivity::class.java))
         }
 
-        binding.addad.setOnClickListener {
-            startActivity(Intent(requireContext(), AddAdActivity::class.java))
+        binding.settings.setOnClickListener {
+            startActivity(Intent(requireContext(), EditProfileActivity::class.java))
         }
     }
 
@@ -125,7 +124,6 @@ class UserFragment : Fragment() {
         binding.logoutButton.visibility = View.VISIBLE
         binding.myads.visibility = View.VISIBLE
         binding.settings.visibility = View.VISIBLE
-        binding.addad.visibility = View.VISIBLE
         binding.usernameTextView.visibility = View.VISIBLE
         binding.emailTextView.visibility = View.VISIBLE
         // Update UI with username and email
@@ -139,7 +137,6 @@ class UserFragment : Fragment() {
         binding.logoutButton.visibility = View.GONE
         binding.myads.visibility = View.GONE
         binding.settings.visibility = View.GONE
-        binding.addad.visibility = View.GONE
         binding.usernameTextView.visibility = View.GONE
         binding.emailTextView.visibility = View.GONE
     }
@@ -166,7 +163,6 @@ class UserFragment : Fragment() {
             binding.logoutButton.visibility = View.GONE
             binding.myads.visibility = View.GONE
             binding.settings.visibility = View.GONE
-            binding.addad.visibility = View.GONE
             binding.usernameTextView.visibility = View.GONE
             binding.emailTextView.visibility = View.GONE
         }

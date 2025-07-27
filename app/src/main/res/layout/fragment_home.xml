@@ -13,13 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="0dp">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="0dp" />
 
         <com.google.android.material.tabs.TabLayout
             android:layout_marginTop="5dp"
@@ -47,7 +47,7 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 app:layout_columnWeight="1"
-                android:background="@drawable/rounded_grid_image"
+                android:background="?attr/backgroundTintMode"
                 android:padding="10dp">
 
                 <ImageView
@@ -57,7 +57,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_dog"
                     android:contentDescription="Dog"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 app:layout_columnWeight="1"
-                android:background="@drawable/rounded_grid_image"
+                android:background="?attr/backgroundTintMode"
                 android:padding="10dp">
 
                 <ImageView
@@ -88,7 +88,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_horse"
                     android:contentDescription="Horse"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 app:layout_columnWeight="1"
-                android:background="@drawable/rounded_grid_image"
+                android:background="?attr/backgroundTintMode"
                 android:padding="10dp">
 
                 <ImageView
@@ -119,7 +119,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_snake"
                     android:contentDescription="Snake"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -139,7 +139,7 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 app:layout_columnWeight="1"
-                android:background="@drawable/rounded_grid_image"
+                android:background="?attr/backgroundTintMode"
                 android:padding="10dp">
 
                 <ImageView
@@ -149,7 +149,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_cat"
                     android:contentDescription="Cat"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -170,7 +170,7 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 app:layout_columnWeight="1"
-                android:background="@drawable/rounded_grid_image"
+                android:background="?attr/backgroundTintMode"
                 android:padding="10dp">
 
                 <ImageView
@@ -180,7 +180,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_fish"
                     android:contentDescription="Fish"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -201,7 +201,7 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 app:layout_columnWeight="1"
-                android:background="@drawable/rounded_grid_image"
+                android:background="?attr/backgroundTintMode"
                 android:padding="10dp">
 
                 <ImageView
@@ -211,7 +211,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_bird"
                     android:contentDescription="Bird"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -233,7 +233,7 @@
                 app:layout_columnWeight="1"
                 android:visibility="gone"
 
-                android:background="@drawable/rounded_grid_image"
+                android:background="?attr/backgroundTintMode"
                 android:padding="10dp">
 
                 <ImageView
@@ -243,7 +243,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_livestock"
                     android:contentDescription="livestock"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -263,7 +263,7 @@
                 app:layout_columnWeight="1"
                 android:visibility="gone"
 
-                android:background="@drawable/rounded_grid_image"
+                android:background="?attr/backgroundTintMode"
                 android:padding="10dp">
                 <ImageView
 
@@ -272,7 +272,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ratic_"
                     android:contentDescription="Bird"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -291,30 +291,31 @@
                 android:gravity="center"
                 app:layout_columnWeight="1"
                 android:visibility="gone"
-                android:background="@drawable/rounded_grid_image"
+                android:background="?attr/backgroundTintMode"
                 android:padding="10dp">
 
                 <ImageView
 
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="44dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_others"
                     android:contentDescription="Bird"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?attr/textFillColor"
                     android:textStyle="bold"
-                    android:text="Izgub./Nađeno" />
+                    android:textSize="14dp"
+                    android:text="Izgubljeno Nađedno" />
             </LinearLayout>
         </androidx.gridlayout.widget.GridLayout>
         <LinearLayout
             android:id="@+id/showAllCategories"
             android:layout_width="match_parent"
-            android:layout_height="100px"
+            android:layout_height="120px"
             android:layout_margin="8dp"
             android:orientation="horizontal"
             android:gravity="center"
@@ -327,6 +328,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Prikaži više kategorija"
+                android:textSize="20dp"
                 android:textColor="?attr/textFillColor"
                 android:textStyle="bold"
                 android:padding="0dp"
@@ -341,18 +343,18 @@
             android:layout_margin="8dp"
             android:orientation="horizontal"
             android:gravity="center"
-            android:background="@drawable/rounded_grid_image"
+            android:background="@drawable/rounded_image_background"
             android:padding="10dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Svi Oglasi"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="?attr/textFillColor"
                 android:gravity="center"
-                android:layout_marginTop="8dp" />
+                 />
         </LinearLayout>
 
         <TextView
@@ -361,17 +363,21 @@
             android:text="Izgubljeno/Nađeno"
             android:textSize="18sp"
             android:textColor="?attr/textFillColor"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="10dp"
+
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewListings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             android:nestedScrollingEnabled="false"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginLeft="4dp"
+
+            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -379,17 +385,21 @@
             android:textColor="?attr/textFillColor"
             android:text="Preporučeni Oglasi"
             android:textSize="18sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="10dp"
+
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerviewPreporuceni"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             android:nestedScrollingEnabled="false"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginLeft="4dp"
+
+            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -397,8 +407,10 @@
             android:textColor="?attr/textFillColor"
             android:text="Blago/Stoka"
             android:textSize="18sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="10dp"
+
             android:textStyle="bold" />
 
         <!-- Recommended Ads (RecyclerView with fixed height) -->
@@ -406,9 +418,11 @@
             android:id="@+id/liveStockAds"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             android:nestedScrollingEnabled="false"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginLeft="4dp"
+
+            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -416,8 +430,10 @@
             android:textColor="?attr/textFillColor"
             android:text="Konji"
             android:textSize="18sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="10dp"
+
             android:textStyle="bold" />
 
         <!-- Recommended Ads (RecyclerView with fixed height) -->
@@ -425,7 +441,8 @@
             android:id="@+id/recyclerviewKonji"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="4dp"
             android:nestedScrollingEnabled="false"
             android:layout_marginBottom="10dp"/>
 

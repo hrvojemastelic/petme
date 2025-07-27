@@ -38,6 +38,7 @@ class AdsHorizontalAdapter(private var adsList: MutableList<ClassifiedAd>) : Rec
     inner class AdViewHolder(private val binding: ItemAdHorizontalBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(ad: ClassifiedAd) {
             binding.adTitle.text = ad.title
+            binding.adDescription.text = ad.description
             binding.adPrice.text = "$${ad.price}"
 
             if (ad.imageUrls.isNotEmpty()) {

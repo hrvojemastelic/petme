@@ -19,11 +19,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Petme"
         tools:targetApi="31">
-
-        <activity android:name=".BaseActivity"
-            android:exported="false"/>
-        <activity android:name=".notifications.NotificationsActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".ui.user.EditProfileActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Petme" />
+        <activity
+            android:name=".BaseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".notifications.NotificationsActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.fullAd.fullimage.FullScreenImageActivity"
             android:exported="false" />
@@ -35,9 +40,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.ads.MyAdsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.ads.addad.AddAdActivity"
             android:exported="false" />
         <activity
             android:name=".ui.user.auth.SignUpActivity"
@@ -53,12 +55,13 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".services.MyFirebaseMessagingService" android:exported="true">
+        <service
+            android:name=".services.MyFirebaseMessagingService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

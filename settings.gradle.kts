@@ -9,6 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+
     }
 }
 dependencyResolutionManagement {
@@ -21,4 +22,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Petme"
 include(":app")
- 

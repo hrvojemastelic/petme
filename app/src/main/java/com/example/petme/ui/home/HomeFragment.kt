@@ -146,9 +146,9 @@ class HomeFragment : Fragment() {
 
     private fun setUpCategoryIcons() {
         binding.dogs.setOnClickListener { openAdsListFragment("psi") }
-        binding.horses.setOnClickListener { openAdsListFragment("mačke") }
-        binding.reptails.setOnClickListener { openAdsListFragment("konji") }
-        binding.cats.setOnClickListener { openAdsListFragment("reptili") }
+        binding.cats.setOnClickListener { openAdsListFragment("mačke") }
+        binding.horses.setOnClickListener { openAdsListFragment("konji") }
+        binding.reptails.setOnClickListener { openAdsListFragment("reptili") }
         binding.fish.setOnClickListener { openAdsListFragment("riba") }
         binding.birds.setOnClickListener { openAdsListFragment("ptice") }
         binding.livestock.setOnClickListener { openAdsListFragment("stoka") }
@@ -159,9 +159,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun openAdsListFragment(category: String) {
+        Log.d("category" ,category.toString())
         val intent = Intent(requireContext(), AdsListActivity::class.java).apply {
             putExtra(AdsListActivity.EXTRA_CATEGORY, category)
-            putExtra("allUsers", "allUsers")// Pass the category
+            putExtra("allUsers", "allUsers")
         }
         startActivity(intent)
     }
