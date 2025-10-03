@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.njuapp.adapter.ImageSliderAdapter
+import com.example.petme.Constants.EXTRA_SEARCH_QUERY
 import com.example.petme.MainActivity
 import com.example.petme.R
 import com.example.petme.databinding.FragmentHomeBinding
@@ -160,11 +161,12 @@ class HomeFragment : Fragment() {
 
     private fun openAdsListFragment(category: String) {
         Log.d("category" ,category.toString())
-        val intent = Intent(requireContext(), AdsListActivity::class.java).apply {
-            putExtra(AdsListActivity.EXTRA_CATEGORY, category)
-            putExtra("allUsers", "allUsers")
+        val bundle = Bundle().apply {
+            putString("category", category)
+            putString("userId", null)
+            putString(EXTRA_SEARCH_QUERY, "")
         }
-        startActivity(intent)
+        findNavController().navigate(R.id.adsListFragment, bundle)
     }
 
     private fun startAutoSliding(viewPager: ViewPager2, totalImages: Int) {

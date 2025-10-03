@@ -1,15 +1,12 @@
-// BaseActivity.kt
-
 package com.example.petme
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.navigation.fragment.NavHostFragment
 import com.example.petme.Constants.EXTRA_SEARCH_QUERY
 import com.example.petme.notifications.NotificationsActivity
-import com.example.petme.ui.ads.adslist.AdsListActivity
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -30,27 +27,35 @@ open class BaseActivity : AppCompatActivity() {
         searchView.setIconifiedByDefault(false)
         searchView.clearFocus()
 
-        // 👇 THIS sends the query to AdsListActivity
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
                     if (it.isNotBlank()) {
-                        val intent = Intent(this@BaseActivity, AdsListActivity::class.java)
-                        intent.putExtra(EXTRA_SEARCH_QUERY, it.trim())
-                        startActivity(intent)
+                        val navHostFragment =
+                            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as? NavHostFragment
+                        val navController = navHostFragment?.navController
+
+                        if (navController != null) {
+                            val bundle = Bundle().apply {
+                                putString("category", "")
+                                putString("userId", null)
+                                putString(EXTRA_SEARCH_QUERY, it.trim())
+                            }
+                            navController.navigate(R.id.adsListFragment, bundle)
+                        }
                     }
                 }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                return true // we don’t care about live typing here
+                return true
             }
         })
 
         val notificationIcon = customView.findViewById<ImageView>(R.id.notificationIcon)
         notificationIcon.setOnClickListener {
-            startActivity(Intent(this, NotificationsActivity::class.java))
+            startActivity(android.content.Intent(this, NotificationsActivity::class.java))
         }
     }
 }

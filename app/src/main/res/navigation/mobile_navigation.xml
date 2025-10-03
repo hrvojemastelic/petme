@@ -29,23 +29,10 @@
         android:label="PetMe"
         tools:layout="@layout/fragment_user" />
 
+
     <fragment
         android:id="@+id/adsListFragment"
         android:name="com.example.petme.ui.ads.adslist.AdsListFragment"
         android:label="Ads List"
-        tools:layout="@layout/fragment_ads_list">
-
-        <!-- Arguments -->
-        <argument
-            android:name="category"
-            app:argType="string"
-            android:defaultValue="" />
-
-        <argument
-            android:name="userId"
-            app:argType="string"
-             />
-
-    </fragment>
-
+        tools:layout="@layout/fragment_ads_list" />
 </navigation>
