@@ -118,7 +118,7 @@ class HomeFragment : Fragment() {
                 hiddenCategory1.visibility = View.GONE
                 hiddenCategory2.visibility = View.GONE
                 hiddenCategory3.visibility = View.GONE
-                showAllCategoriesText.text = "Prikaži više kategorija"
+                showAllCategoriesText.text = "Sve kategorija"
             }
 
         }
@@ -132,7 +132,7 @@ class HomeFragment : Fragment() {
                 hiddenCategory1.visibility = View.GONE
                 hiddenCategory2.visibility = View.GONE
                 hiddenCategory3.visibility = View.GONE
-                showAllCategoriesText.text = "Prikaži više kategorija"
+                showAllCategoriesText.text = "Sve kategorija"
             }
         }
         return root

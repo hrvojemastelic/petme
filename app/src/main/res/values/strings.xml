@@ -63,6 +63,22 @@
         <item>Čistokrvni</item>
         <item>Mješanac</item>
     </string-array>
+
+    <string-array name="chip">
+        <item>Da li je čipiran ?</item>
+        <item>Da</item>
+        <item>Ne</item>
+        <item>Nepoznato</item>
+    </string-array>
+
+    <string-array name="vacine">
+        <item>Da li je cijepljen ?</item>
+        <item>Da</item>
+        <item>Ne</item>
+        <item>Nepoznato</item>
+    </string-array>
+
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

@@ -22,6 +22,8 @@
 
     <color name="cardBack">@color/dark_gray</color>
     <color name="textColorPrimary">#FFFFFF</color>
+    <color name="editTextBack">@color/dark_gray</color>
+
     <!-- Base application theme. -->
     <style name="Base.Theme.Petme" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->

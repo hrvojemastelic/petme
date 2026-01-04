@@ -18,10 +18,10 @@
 
             <Button
                 android:id="@+id/btnUploadImages"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Upload Images"
-                android:layout_marginBottom="10dp"
+                android:text="Postavite slike"
+                android:layout_marginBottom="2dp"
                 android:background="@drawable/rounded_image_background"/>
 
             <GridLayout
@@ -30,24 +30,30 @@
                 android:layout_height="wrap_content"
                 android:columnCount="4"
                 android:padding="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
 
             <EditText
                 android:id="@+id/etTitle"
+                android:padding="6dp"
+                android:textColorHint="?attr/textFillColor"
+                android:textColor="?attr/textFillColor"
+                android:background="@color/editTextBack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_addad_background"
-                android:hint="Title" />
+                android:hint="Naslov" />
 
             <EditText
                 android:id="@+id/etDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Description"
+                android:hint="Opis"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_addad_background"
+                android:padding="6dp"
+                android:textColorHint="?attr/textFillColor"
+                android:textColor="?attr/textFillColor"
+                android:background="@color/editTextBack"
                 android:inputType="textMultiLine"
                 android:minLines="5"
                 android:gravity="top|start" />
@@ -56,9 +62,12 @@
                 android:id="@+id/phoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phine Number"
+                android:hint="Broj Mobitela"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_addad_background"
+                android:padding="6dp"
+                android:textColorHint="?attr/textFillColor"
+                android:textColor="?attr/textFillColor"
+                android:background="@color/editTextBack"
                 android:inputType="number" />
 
 
@@ -66,18 +75,24 @@
                 android:id="@+id/etPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Price"
+                android:hint="Cijena"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_addad_background"
+                android:padding="6dp"
+                android:textColorHint="?attr/textFillColor"
+                android:textColor="@color/textColorPrimary"
+                android:background="@color/editTextBack"
                 android:inputType="numberDecimal"/>
 
             <EditText
                 android:id="@+id/etAge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Age"
+                android:hint="Broj Godina"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_addad_background"
+                android:padding="6dp"
+                android:textColorHint="?attr/textFillColor"
+                android:textColor="@color/textColorPrimary"
+                android:background="@color/editTextBack"
                 android:inputType="number" />
 
             <EditText
@@ -85,82 +100,89 @@
                 android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_addad_background"
-                android:hint="Address" />
-
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:text="Select region"/>
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/croatian_regions"
-                android:background="@drawable/rounded_addad_background"
-                android:layout_marginBottom="10dp"/>
-
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:text="Select category"/>
-
-            <Spinner
-                android:id="@+id/spinnerCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/category_options"
-                android:background="@drawable/rounded_addad_background"
-                android:layout_marginBottom="10dp"/>
-
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:text="Type of ad"/>
-
-            <Spinner
-                android:id="@+id/typeOfAd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/typeOfAd"
-                android:background="@drawable/rounded_addad_background"
-                android:layout_marginBottom="10dp"/>
-
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:text="Select blood type"/>
-
-            <Spinner
-                android:id="@+id/bloodType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/bloodType"
-                android:background="@drawable/rounded_addad_background"
-                android:layout_marginBottom="10dp"/>
+                android:padding="6dp"
+                android:textColorHint="?attr/textFillColor"
+                android:textColor="@color/textColorPrimary"
+                android:background="@color/editTextBack"
+                android:hint="Adresa" />
 
             <EditText
                 android:id="@+id/etBreed"
                 android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_addad_background"
-                android:hint="Breed" />
+                android:padding="6dp"
+                android:textColorHint="?attr/textFillColor"
+                android:textColor="@color/textColorPrimary"
+                android:background="@color/editTextBack"
+                android:hint="Vrsta" />
+
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/croatian_regions"
+                android:padding="6dp"
+                android:background="@color/editTextBack"
+                android:layout_marginBottom="10dp"/>
+
+
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/category_options"
+                android:padding="6dp"
+                android:background="@color/editTextBack"
+                android:layout_marginBottom="10dp"/>
+
+
+
+            <Spinner
+                android:id="@+id/typeOfAd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/typeOfAd"
+                android:padding="6dp"
+                android:background="@color/editTextBack"
+                android:layout_marginBottom="10dp"/>
+
+
+
+            <Spinner
+                android:id="@+id/bloodType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/bloodType"
+                android:padding="6dp"
+                android:background="@color/editTextBack"
+                android:layout_marginBottom="10dp"/>
+
+            <Spinner
+                android:id="@+id/chip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/chip"
+                android:padding="6dp"
+                android:background="@color/editTextBack"
+                android:layout_marginBottom="10dp"/>
+
+            <Spinner
+                android:id="@+id/vacinated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/vacine"
+                android:padding="6dp"
+                android:background="@color/editTextBack"
+                android:layout_marginBottom="10dp"/>
+
 
             <Button
                 android:id="@+id/btnSaveAd"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Save Ad" />
+                android:text="Spremi Oglas" />
 
         </LinearLayout>
     </ScrollView>

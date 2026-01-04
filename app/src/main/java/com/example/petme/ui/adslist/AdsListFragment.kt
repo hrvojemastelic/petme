@@ -1,10 +1,8 @@
 package com.example.petme.ui.ads.adslist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,6 +68,7 @@ class AdsListFragment : Fragment() {
         adsAdapter = AdsSingleColAdapter(mutableListOf(), showDeleteButton = false) {}
         binding.recyclerViewAds.adapter = adsAdapter
 
+        // Sort opcije
         val sortOptions = resources.getStringArray(R.array.sort_options)
         val adapter: ArrayAdapter<String> = ArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_item, sortOptions
@@ -94,26 +93,12 @@ class AdsListFragment : Fragment() {
 
         binding.btnFilter.setOnClickListener { showFilterDialog() }
 
+        // Odluka što dohvatiti
         if (userId.isNullOrBlank()) {
             fetchAdsFromFirestore()
         } else {
             fetchAdsByUserId(userId!!)
         }
-
-        val searchView = requireActivity().findViewById<SearchView>(R.id.searchView)
-        searchView.setOnQueryTextListener(null)
-        searchView.setQuery(query ?: "", false)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(q: String?): Boolean {
-                searchForAds(q.orEmpty())
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                searchForAds(newText.orEmpty())
-                return true
-            }
-        })
     }
 
     private fun fetchAdsFromFirestore() {
@@ -125,10 +110,13 @@ class AdsListFragment : Fragment() {
                     val ad = document.toObject(ClassifiedAd::class.java)
                     adsList.add(ad)
                 }
+
                 val filteredAds = if (category.isEmpty()) adsList
                 else adsList.filter { it.category.equals(category, ignoreCase = true) }
 
                 adsAdapter.updateAds(filteredAds)
+
+                // Ako imamo query iz BaseActivity – odradi search odmah
                 query?.takeIf { it.isNotBlank() }?.let { searchForAds(it) }
             }
             .addOnFailureListener {
@@ -147,6 +135,8 @@ class AdsListFragment : Fragment() {
                     adsList.add(ad)
                 }
                 adsAdapter.updateAds(adsList)
+
+                // Ako imamo query iz BaseActivity – odradi search odmah
                 query?.takeIf { it.isNotBlank() }?.let { searchForAds(it) }
             }
             .addOnFailureListener {
@@ -155,6 +145,12 @@ class AdsListFragment : Fragment() {
     }
 
     private fun searchForAds(query: String) {
+        if (query.isBlank()) {
+            // ako je prazno pretraživanje → prikaži sve oglase
+            adsAdapter.updateAds(adsList)
+            return
+        }
+
         val filtered = adsList.filter {
             it.title.contains(query, true) ||
                     it.description.contains(query, true) ||
@@ -166,6 +162,7 @@ class AdsListFragment : Fragment() {
             Toast.makeText(requireContext(), "Nema rezultata za \"$query\"", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun showFilterDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_filter, null)
@@ -272,4 +269,12 @@ class AdsListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+    fun updateSearch(query: String) {
+        if (query.isBlank()) {
+            adsAdapter.updateAds(adsList) // resetiraj na sve oglase
+        } else {
+            searchForAds(query)
+        }
+    }
+
 }

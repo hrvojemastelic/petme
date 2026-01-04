@@ -1,6 +1,7 @@
 package com.example.petme.ui.user
 
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -84,6 +85,7 @@ class EditProfileActivity : AppCompatActivity() {
             .update(updates)
             .addOnSuccessListener {
                 Toast.makeText(this, "Broj mobitela ažuriran", Toast.LENGTH_SHORT).show()
+                finish()
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Greška pri spremanju broja", Toast.LENGTH_SHORT).show()
@@ -104,6 +106,7 @@ class EditProfileActivity : AppCompatActivity() {
             auth.currentUser?.updatePassword(newPassword)
                 ?.addOnSuccessListener {
                     Toast.makeText(this, "Lozinka ažurirana", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
                 ?.addOnFailureListener {
                     Toast.makeText(this, "Greška kod promjene lozinke: ${it.message}", Toast.LENGTH_SHORT).show()

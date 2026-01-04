@@ -7,6 +7,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.NavHostFragment
 import com.example.petme.Constants.EXTRA_SEARCH_QUERY
 import com.example.petme.notifications.NotificationsActivity
+import com.example.petme.ui.ads.adslist.AdsListFragment
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -29,29 +30,48 @@ open class BaseActivity : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let {
-                    if (it.isNotBlank()) {
-                        val navHostFragment =
-                            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as? NavHostFragment
-                        val navController = navHostFragment?.navController
-
-                        if (navController != null) {
-                            val bundle = Bundle().apply {
-                                putString("category", "")
-                                putString("userId", null)
-                                putString(EXTRA_SEARCH_QUERY, it.trim())
-                            }
-                            navController.navigate(R.id.adsListFragment, bundle)
-                        }
-                    }
-                }
+                handleSearchQuery(query, fromChange = false)
+                searchView.clearFocus()
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                return true
+                // reagiraj samo ako si već u AdsListFragmentu
+                handleSearchQuery(newText, fromChange = true)
+                return false
+            }
+
+            private fun handleSearchQuery(query: String?, fromChange: Boolean) {
+                val navHostFragment =
+                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as? NavHostFragment
+                val navController = navHostFragment?.navController
+                val finalQuery = query?.trim() ?: ""
+
+                if (navController != null) {
+                    val currentDest = navController.currentDestination?.id
+
+                    if (currentDest == R.id.adsListFragment) {
+                        // samo update kad smo već na listi
+                        val fragment = navHostFragment.childFragmentManager.fragments
+                            .firstOrNull { it is AdsListFragment } as? AdsListFragment
+                        fragment?.updateSearch(finalQuery)
+                    } else {
+                        // ako nismo na listi → otvaramo samo kod SUBMIT-a
+                        if (!fromChange) {
+                            val bundle = Bundle().apply {
+                                putString("category", "")
+                                putString("userId", null)
+                                putString(EXTRA_SEARCH_QUERY, finalQuery)
+                            }
+                            navController.popBackStack(R.id.adsListFragment, true)
+                            navController.navigate(R.id.adsListFragment, bundle)
+                        }
+                    }
+                }
             }
         })
+
+
 
         val notificationIcon = customView.findViewById<ImageView>(R.id.notificationIcon)
         notificationIcon.setOnClickListener {
