@@ -5,4 +5,13 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
+    <style name="InputError">
+        <item name="android:backgroundTint">@color/error_red</item>
+    </style>
+
+    <style name="InputNormal">
+        <item name="android:backgroundTint">@color/normal_stroke</item>
+    </style>
+
 </resources>

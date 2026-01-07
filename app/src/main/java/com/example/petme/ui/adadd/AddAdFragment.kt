@@ -2,29 +2,43 @@ package com.example.petme.ui.addad
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.icu.lang.UCharacter.toLowerCase
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.petme.R
 import com.example.petme.databinding.FragmentAddAdBinding
 import com.example.petme.models.ClassifiedAd
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.*
@@ -91,91 +105,394 @@ class AddAdFragment : Fragment() {
         }
     }
 
-    private fun addImageToContainer(imageUri: Uri) {
-        val imageView = ImageView(requireContext()).apply {
-            layoutParams = GridLayout.LayoutParams().apply {
-                width = 200 // Adjust this size as needed for your layout
-                height = 200 // Adjust this size as needed for your layout
-                setMargins(8, 8, 8, 8)
+    // Load a scaled down bitmap for display
+    // Convert dp to pixels
+    private fun Int.dpToPx(): Int =
+        (this * resources.displayMetrics.density).toInt()
+
+    // Load scaled thumbnail for display
+    private fun loadThumbnail(uri: Uri, maxSize: Int = 200): Bitmap? {
+        return try {
+            val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val source = ImageDecoder.createSource(requireContext().contentResolver, uri)
+                ImageDecoder.decodeBitmap(source)
+            } else {
+                MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
             }
-            setImageURI(imageUri)
-            scaleType = ImageView.ScaleType.CENTER_CROP
-            setPadding(4, 4, 4, 4)
-            setOnClickListener {
-                // Show confirmation dialog before deleting
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Delete Image")
-                    .setMessage("Are you sure you want to delete this image?")
-                    .setPositiveButton("Yes") { _, _ ->
-                        selectedImages.remove(imageUri)
-                        binding.selectedImagesContainer.removeView(this)
-                        Toast.makeText(requireContext(), "Image removed", Toast.LENGTH_SHORT).show()
+
+            val width = bitmap.width
+            val height = bitmap.height
+            val scale = minOf(maxSize.toFloat() / width, maxSize.toFloat() / height, 1.0f)
+
+            Bitmap.createScaledBitmap(
+                bitmap,
+                (width * scale).toInt(),
+                (height * scale).toInt(),
+                true
+            )
+        } catch (e: IOException) {
+            null
+        }
+    }
+
+    private fun addImageToContainer(imageUri: Uri) {
+        // Load the thumbnail on a background thread
+        lifecycleScope.launch(Dispatchers.IO) {
+            val thumbnail = loadThumbnail(imageUri, maxSize = 200) // small bitmap for display
+            if (thumbnail != null) {
+                withContext(Dispatchers.Main) {
+                    val imageView = ImageView(requireContext()).apply {
+                        scaleType = ImageView.ScaleType.CENTER_CROP
+                        setPadding(4.dpToPx(), 4.dpToPx(), 4.dpToPx(), 4.dpToPx())
+                        setOnClickListener {
+                            // Show confirmation dialog before deleting
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("Delete Image")
+                                .setMessage("Are you sure you want to delete this image?")
+                                .setPositiveButton("Yes") { _, _ ->
+                                    selectedImages.remove(imageUri)
+                                    binding.selectedImagesContainer.removeView(this)
+                                    Toast.makeText(requireContext(), "Image removed", Toast.LENGTH_SHORT).show()
+                                }
+                                .setNegativeButton("No") { dialog, _ ->
+                                    dialog.dismiss()
+                                }.show()
+                        }
                     }
-                    .setNegativeButton("No") { dialog, _ ->
-                        dialog.dismiss()
-                    }.show()
+
+                    // Calculate dynamic column width based on GridLayout width
+                    binding.selectedImagesContainer.post {
+                        val gridWidth = binding.selectedImagesContainer.width
+                        val numColumns = binding.selectedImagesContainer.columnCount
+                        val spacing = 8.dpToPx() * (numColumns + 1) // account for margins
+                        val columnWidth = (gridWidth - spacing) / numColumns
+
+                        val params = GridLayout.LayoutParams().apply {
+                            width = columnWidth
+                            height = columnWidth // square image
+                            setMargins(4.dpToPx(), 4.dpToPx(), 4.dpToPx(), 4.dpToPx())
+                        }
+                        imageView.layoutParams = params
+
+                        imageView.setImageBitmap(thumbnail)
+                        binding.selectedImagesContainer.addView(imageView)
+                    }
+                }
             }
         }
-        binding.selectedImagesContainer.addView(imageView)
     }
+
+
+    private fun isDarkThemeEnabled(): Boolean {
+        val nightModeFlags =
+            resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    private fun markError(view: View) {
+        view.background = ContextCompat.getDrawable(
+            requireContext(),
+            R.drawable.edittext_bg_error
+        )
+    }
+
+    private fun clearError(view: View) {
+        view.background = ContextCompat.getDrawable(
+            requireContext(),
+            R.drawable.edittext_bg
+        )
+    }
+
+    private fun markSpinnerError(spinner: Spinner) {
+        spinner.background = ContextCompat.getDrawable(
+            requireContext(),
+            R.drawable.edittext_bg_error
+        )
+    }
+
+    private fun clearSpinnerError(spinner: Spinner) {
+        spinner.background = ContextCompat.getDrawable(
+            requireContext(),
+            R.drawable.edittext_bg
+        )
+    }
+    private fun validateRequired(editText: EditText): String? {
+        val value = editText.text.toString().trim()
+        return if (value.isEmpty()) {
+            markError(editText)
+            null
+        } else {
+            clearError(editText)
+            value
+        }
+    }
+
+    private fun validateInt(editText: EditText): Int? {
+        val value = editText.text.toString().trim().toIntOrNull()
+        return if (value == null) {
+            markError(editText)
+            null
+        } else {
+            clearError(editText)
+            value
+        }
+    }
+
+    private fun validateDouble(editText: EditText): Double? {
+        val value = editText.text.toString().trim().toDoubleOrNull()
+        return if (value == null) {
+            markError(editText)
+            null
+        } else {
+            clearError(editText)
+            value
+        }
+    }
+
+    private fun validateSpinner(spinner: Spinner, invalidValue: String): String? {
+        val value = spinner.selectedItem.toString()
+        return if (value == invalidValue) {
+            markSpinnerError(spinner)
+            null
+        } else {
+            clearSpinnerError(spinner)
+            value
+        }
+    }
+
+    private fun restoreUi() {
+        binding.btnSaveAd.isEnabled = true
+        binding.progressBar.visibility = View.GONE
+        binding.mainContentLayout.visibility = View.VISIBLE
+    }
+
+
 
     private fun saveAd() {
         binding.btnSaveAd.isEnabled = false
         binding.mainContentLayout.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
 
-        val title = binding.etTitle.text.toString().trim()
-        val description = binding.etDescription.text.toString().trim()
-        val priceText = binding.etPrice.text.toString().trim()
-        val ageText = binding.etAge.text.toString().trim()
-        val category = binding.spinnerCategory.selectedItem.toString()
-        val breed = binding.etBreed.text.toString().trim()
-        val region = binding.spinner.selectedItem.toString()
-        val address = binding.address.text.toString().trim()
-        val phoneNumberText = binding.phoneNumber.text.toString().trim()
-        val typeOfAd = binding.typeOfAd.selectedItem.toString()
-        val bloodType = binding.bloodType.selectedItem.toString()
-        if (title.trim().isEmpty() || description.trim().isEmpty() || priceText.isEmpty() ||
-            ageText.isEmpty() || category == "Select Category" || category.trim().isEmpty() || breed.isEmpty() || selectedImages.isEmpty()
-            || region == "Select Region" || region.trim().isEmpty() || address.trim().isEmpty() || phoneNumberText.trim().isEmpty() || typeOfAd =="Select type of ad" ||
-            typeOfAd.trim().isEmpty() || bloodType == "Select blood" || bloodType.trim().isEmpty()
-        ) {
-            binding.btnSaveAd.isEnabled = true
-            binding.progressBar.visibility = View.GONE
-            binding.mainContentLayout.visibility = View.VISIBLE
-
-            Toast.makeText(requireContext(), "Please fill in all fields and add pictures", Toast.LENGTH_SHORT).show()
+        if (auth.currentUser == null) {
+            restoreUi()
+            Toast.makeText(requireContext(), "Sva polja su obavezna", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val price = priceText.toDoubleOrNull()
-        val age = ageText.toIntOrNull()
-        val phoneNumber = phoneNumberText.toIntOrNull()
+        var hasError = false
 
-        if (price == null || age == null || phoneNumber == null) {
-            binding.btnSaveAd.isEnabled = true
-            binding.progressBar.visibility = View.GONE
-            binding.mainContentLayout.visibility = View.VISIBLE
+        val title = validateRequired(binding.etTitle) ?: run { hasError = true; "" }
+        binding.etTitle.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.isNullOrBlank()) {
+                    clearError(binding.etTitle)
+                }
+            }
 
-            Toast.makeText(requireContext(), "Invalid price or age or phone number format", Toast.LENGTH_SHORT).show()
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        val description = validateRequired(binding.etDescription) ?: run { hasError = true; "" }
+        binding.etDescription.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.isNullOrBlank()) {
+                    clearError(binding.etDescription)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        val breed = validateRequired(binding.etBreed) ?: run { hasError = true; "" }
+        binding.etBreed.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.isNullOrBlank()) {
+                    clearError(binding.etBreed)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+        val address = validateRequired(binding.address) ?: run { hasError = true; "" }
+        binding.address.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.isNullOrBlank()) {
+                    clearError(binding.address)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+        val price = validateDouble(binding.etPrice) ?: run { hasError = true; 0.0 }
+        binding.etPrice.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.isNullOrBlank()) {
+                    clearError(binding.etPrice)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+        val age = validateInt(binding.etAge) ?: run { hasError = true; 0 }
+        binding.etAge.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.isNullOrBlank()) {
+                    clearError(binding.etAge)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+        val phoneNumber = validateInt(binding.phoneNumber) ?: run { hasError = true; 0 }
+        binding.phoneNumber.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.isNullOrBlank()) {
+                    clearError(binding.phoneNumber)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+        val category = validateSpinner(binding.spinnerCategory, "Odaberi kategoriju")
+            ?: run { hasError = true; "" }
+
+        binding.spinnerCategory.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    clearSpinnerError(binding.spinnerCategory)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
+
+        val region = validateSpinner(binding.spinner, "Odaberi županiju")
+            ?: run { hasError = true; "" }
+        binding.spinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    clearSpinnerError(binding.spinner)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
+        val typeOfAd = validateSpinner(binding.typeOfAd, "Odaberi tip oglasa")
+            ?: run { hasError = true; "" }
+        binding.typeOfAd.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    clearSpinnerError(binding.typeOfAd)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
+        val bloodType = validateSpinner(binding.bloodType, "Odaberi tip")
+            ?: run { hasError = true; "" }
+        binding.bloodType.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    clearSpinnerError(binding.bloodType)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
+        val chip = validateSpinner(binding.chip, "Je li čipiran?")
+            ?: run { hasError = true; "" }
+        binding.chip.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    clearSpinnerError(binding.chip)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
+        val vaccine = validateSpinner(binding.vacinated, "Je li cijepljen?")
+            ?: run { hasError = true; "" }
+        binding.vacinated.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    clearSpinnerError(binding.vacinated)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
+        if (selectedImages.isEmpty()) {
+            hasError = true
+            Toast.makeText(requireContext(), "Molim dodajte slike", Toast.LENGTH_SHORT).show()
+        }
+
+        if (hasError) {
+            restoreUi()
+            Toast.makeText(requireContext(), "Sva polja su obavezna", Toast.LENGTH_SHORT).show()
             return
         }
 
-        binding.progressBar.visibility = View.VISIBLE
-        binding.mainContentLayout.visibility = View.GONE
+        // ✅ All fields valid → continue with save logic here
 
-        uploadImagesAndSaveAd(title, description, price, age, category, breed,region,address,phoneNumber,typeOfAd,bloodType)
+    uploadImagesAndSaveAd(
+            title,
+            description,
+            price,
+            age,
+            category,
+            breed,
+            region,
+            address,
+            phoneNumber,
+            typeOfAd,
+            bloodType,
+            chip,
+            vaccine
+        )
     }
 
-    private fun uploadImagesAndSaveAd(title: String, description: String, price: Double, age: Int, category: String, breed: String,region:String,address:String,phoneNumber: Int,typeOfAd : String,bloodType:String) {
+
+
+    private fun uploadImagesAndSaveAd(title: String, description: String, price: Double, age: Int, category: String, breed: String,region:String,address:String,phoneNumber: Int,typeOfAd : String,bloodType:String,chip:String,vaccine:String) {
         val user = auth.currentUser
         if (user != null && selectedImages.isNotEmpty()) {
             val imageUrls = mutableListOf<String>()
-            uploadImage(0, imageUrls, title, description, price, age, category, breed,region,address,phoneNumber,typeOfAd,bloodType)
+            uploadImageAndAdd(0, imageUrls, title, description, price, age, category, breed,region,address,phoneNumber,typeOfAd,bloodType,chip,vaccine)
         }
     }
 
-    private fun uploadImage(
+    private fun uploadImageAndAdd(
         index: Int,
         imageUrls: MutableList<String>,
         title: String,
@@ -188,41 +505,49 @@ class AddAdFragment : Fragment() {
         address:String,
         phoneNumber: Int,
         typeOfAd: String,
-        bloodType:String
+        bloodType:String,
+        chip:String,
+        vaccine: String
     ) {
-        if (index < selectedImages.size) {
-            val uri = selectedImages[index]
-            val imageRef = storage.reference.child("images/${UUID.randomUUID()}.jpg")
+        if (index >= selectedImages.size) {
+            saveAdToFirestore(title, description, price, age, category, breed, imageUrls, region, address, phoneNumber, typeOfAd, bloodType, chip, vaccine)
+            return
+        }
 
-            compressImage(uri)?.let { compressedData ->
-                imageRef.putBytes(compressedData)
-                    .addOnSuccessListener {
-                        imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                            imageUrls.add(downloadUri.toString())
-                            uploadImage(index + 1, imageUrls, title, description, price, age, category, breed,region,address,phoneNumber,typeOfAd,bloodType)
-                        }
-                    }
-                    .addOnFailureListener {
-                        binding.btnSaveAd.isEnabled = true
-                        binding.progressBar.visibility = View.GONE
-                        binding.mainContentLayout.visibility = View.VISIBLE
-
-                        Toast.makeText(requireContext(), "Error uploading image", Toast.LENGTH_SHORT).show()
-                    }
-            } ?: run {
-                Toast.makeText(requireContext(), "Error processing image", Toast.LENGTH_SHORT).show()
+        val uri = selectedImages[index]
+        lifecycleScope.launch(Dispatchers.IO) {
+            val compressedData = compressImage(uri)
+            if (compressedData == null) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Error processing image", Toast.LENGTH_SHORT).show()
+                }
+                return@launch
             }
-        } else {
-            saveAdToFirestore(title, description, price, age, category, breed, imageUrls,region,address,phoneNumber,typeOfAd,bloodType)
+
+            val imageRef = storage.reference.child("images/${UUID.randomUUID()}.jpg")
+            val uploadTask = imageRef.putBytes(compressedData).await() // Using kotlinx-coroutines-play-services
+
+            val downloadUrl = imageRef.downloadUrl.await()
+            imageUrls.add(downloadUrl.toString())
+
+            withContext(Dispatchers.Main) {
+                // Recursive call on main thread to keep UI safe
+                uploadImageAndAdd(index + 1, imageUrls, title, description, price, age, category, breed, region, address, phoneNumber, typeOfAd, bloodType, chip, vaccine)
+            }
         }
     }
 
     private fun compressImage(uri: Uri): ByteArray? {
         return try {
+            val maxDimension = 1024 // max width or height
             val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireContext().contentResolver, uri))
+                val source = ImageDecoder.createSource(requireContext().contentResolver, uri)
+                var bmp = ImageDecoder.decodeBitmap(source)
+                bmp = scaleBitmap(bmp, maxDimension)
+                bmp
             } else {
-                MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+                val bmp = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+                scaleBitmap(bmp, maxDimension)
             }
 
             val outputStream = ByteArrayOutputStream()
@@ -232,6 +557,25 @@ class AddAdFragment : Fragment() {
             null
         }
     }
+
+    private fun scaleBitmap(bitmap: Bitmap, maxDimension: Int): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+
+        val scale = if (width > height) {
+            maxDimension.toFloat() / width
+        } else {
+            maxDimension.toFloat() / height
+        }
+
+        return Bitmap.createScaledBitmap(
+            bitmap,
+            (width * scale).toInt(),
+            (height * scale).toInt(),
+            true
+        )
+    }
+
 
     private fun saveAdToFirestore(
         title: String,
@@ -245,7 +589,8 @@ class AddAdFragment : Fragment() {
         address: String,
         phoneNumber: Int,
         typeOfAd: String,
-        bloodType:String
+        bloodType:String,
+        chip: String,vaccine: String
     ) {
         val user = auth.currentUser
         if (user != null) {
@@ -266,7 +611,9 @@ class AddAdFragment : Fragment() {
                 "address" to address,
                 "phoneNumber" to phoneNumber,
                 "typeOfAd" to typeOfAd,
-                "bloodType" to bloodType
+                "bloodType" to bloodType,
+                "chip" to chip,
+                "vaccine" to vaccine
             )
 
             firestore.collection("ads")

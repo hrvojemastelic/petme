@@ -13,5 +13,7 @@
     <color name="redish">#ba0d38</color>
     <color name="primary_text">#FFFFFF</color>
     <color name="primary_text_night">#000000</color>
+    <color name="error_red">#D32F2F</color>
+    <color name="normal_stroke">#FFFFFF</color>
 
 </resources>
